@@ -1,14 +1,10 @@
 # CouchMobile_control_system
 PID Motor control system for CouchMobile
 
-## Usage
-Open terminal and run:
-1. `make`
-2. `./pid`
+## Directory
+--> motor_control
+	--> c++ - C++ implementation of motor control
+	--> c - C implementation of motor control
+	--> motor_control - Arduino implementation of motor control
+	--> test_* - test to see if encoder & pwm work
 
-## Design
-TODO insert block diagram
-
-## Implementation
-
-## Finding the Constants
