@@ -61,7 +61,7 @@ void setup()
  
 void loop()
 {
-  desiredSpeed = 5; // Set this to 5m/s for now
+  desiredSpeed = 5;
 
   // Update rps (measuredSpeed) every second
   if(millis() - start > 1000) {
@@ -73,7 +73,9 @@ void loop()
   }
   
   // Calculate next desired output
-  val = calculatePID(con, measuredSpeed, desiredSpeed) + measuredSpeed;
+  val += calculatePID(con, measuredSpeed, desiredSpeed);
+  if(val > 180) val = 180;
+  if(val < 0) val = 0;
   motor.write(val);
 
   // Print the results
@@ -81,8 +83,8 @@ void loop()
   Serial.print(desiredSpeed);
   Serial.print("m/s\t");
   Serial.print("\t");
-  Serial.print("Current count: ");
-  Serial.print(encoderCounts);
+  Serial.print("Measured Speed: ");
+  Serial.print(measuredSpeed);
   Serial.println("m/s");
  
   delay(20);
