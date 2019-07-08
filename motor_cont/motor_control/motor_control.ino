@@ -1,126 +1,119 @@
-#include "Arduino.h" 
 #include <Servo.h>
+#include "pid.h"
 
-// Controller struct
-struct pid{
-    double dt;
-    double max;
-    double min;
-    double Kp;
-    double Kd;
-    double Ki;
-    double error;
-    double integral;
-};
+// Motor pins
+#define Left1   3
+#define Left2   5
+#define Right1  9
+#define Right2  10
 
-struct pid* con;
-
-// Encoder variables
-#define encoderPinA 2
-#define encoderPinB 3
-#define encoderPinC 4
+// Encoder pins and defines
+#define encoderLeftPinA 2
+#define encoderLeftPinB 3
+#define encoderLeftPinC 4
 #define readA bitRead(PIND,2)
 #define readB bitRead(PIND,3)
 #define readC bitRead(PIND,4)
-
-volatile long encoderCounts = 0;
-unsigned long start;
-const int cpr = 200;
-int measuredSpeed = 0; 
+// TODO - Add the second encoder
 
 // Motor variables
-#define motorPin 9
-volatile long val;
-volatile long desiredSpeed;
-Servo motor;  // create servo object for the PWM
+Servo motorLeft1;
+Servo motorLeft2;
+Servo motorRight1;
+Servo motorRight2;
+
+// Encoder variables
+const int cpr = 200; // counts per revolution
+volatile long leftCount = 0, rightCount = 0;
+double leftSpeed = 0, rightSpeed = 0; 
+
+// PID controller variables
+class pid* controller = NULL;
+int dt = 250; // Update every 250ms
+int motorSpeedA = 0;
+int motorSpeedB = 0;
  
-void setup()
-{
+void setup() {
   Serial.begin(9600);
-  pinMode(encoderPinA, INPUT_PULLUP);      // sets pin A as input
-  pinMode(encoderPinB, INPUT_PULLUP);      // sets pin B as input
-  pinMode(encoderPinC, INPUT_PULLUP);      // sets pin C as input
-
-  // Attach pins to encoder interrupt function
-  attachInterrupt(digitalPinToInterrupt(encoderPinA), isrA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(encoderPinB), isrB, CHANGE);
-
-  motor.attach(motorPin);  // attach the motor to pin 9 for PWM
-
-  // Initialise the controller struct
-  con = malloc(sizeof(struct pid));
-  con->dt = 0.1;
-  con->max = 100;
-  con->min = -100;
-  con->Kp = 0.1;
-  con->Kd = 0.01;
-  con->Ki = 0.5;
-  con->error = 0;
-  con->integral = 0;
+  initMotors();
+  initEncoders();
+  controller = new pid(dt, 180, 0, 0.1, 0.01, 0.5); //TODO - tune this!
 }
  
-void loop()
-{
-  desiredSpeed = 5;
-
-  // Update rps (measuredSpeed) every second
-  if(millis() - start > 1000) {
-    start = millis();
-    noInterrupts();
-    measuredSpeed = encoderCounts/cpr;
-    encoderCounts = 0;
-    interrupts();
-  }
+void loop() {
+  long desLeft, desRight; // desired speed of the left and right wheel, from Serial comms
   
-  // Calculate next desired output
-  val += calculatePID(con, measuredSpeed, desiredSpeed);
-  if(val > 180) val = 180;
-  if(val < 0) val = 0;
-  motor.write(val);
+  // Get desired speed from serial
+  // TODO
 
-  // Print the results
+  // Convert encoder counts into rps every time interval (in this case it's 250ms)
+  noInterrupts();
+  leftSpeed = 4*leftCount/cpr;
+  leftCount = 0;
+  rightSpeed = 4*rightCount/cpr;
+  rightCount = 0;
+  interrupts();
+  
+  // Calculate next PWM output
+  motorSpeedA += controller->calculate(leftSpeed, desLeft);
+  motorSpeedB += controller->calculate(rightSpeed, desRight);
+
+  // Update the PWM for the motors
+  motorLeft1.write(motorSpeedA);
+  motorLeft2.write(motorSpeedA);
+  motorRight1.write(motorSpeedB);
+  motorRight2.write(motorSpeedB);
+
+  showResults(desLeft, leftSpeed);
+  showResults(desRight, rightSpeed);
+}
+
+/*
+ * Initialise the motors
+ */
+void initMotors(){
+  motorLeft1.attach(Left1);
+  motorLeft2.attach(Left2);
+  motorRight1.attach(Right1);
+  motorRight1.attach(Right1);
+}
+
+/*
+ * Initialise the encoders
+ */
+void initEncoders(){
+  // Set up the left encoder
+  pinMode(encoderLeftPinA, INPUT_PULLUP);
+  pinMode(encoderLeftPinB, INPUT_PULLUP);
+  pinMode(encoderLeftPinC, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(encoderLeftPinA), isrLeftA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(encoderLeftPinB), isrLeftB, CHANGE);
+
+  // Set up the right encoder
+  // TODO
+}
+
+/*
+ * Interrupt service routine for the motor's encoders
+ */
+void isrLeftA() {
+  if(readC) return;
+  readA != readB ? leftCount++:leftCount--;
+}
+
+void isrLeftB() {
+  if(readC) return;
+  readA == readB ? leftCount++:leftCount--;  
+}
+
+/*
+ * Show the results
+ */
+void showResults(int desiredSpeed, int measuredSpeed){
   Serial.print("Desired speed: ");
   Serial.print(desiredSpeed);
-  Serial.print("m/s\t");
+  Serial.print("\t");
   Serial.print("\t");
   Serial.print("Measured Speed: ");
-  Serial.print(measuredSpeed);
-  Serial.println("m/s");
- 
-  delay(20);
-}
- 
-// Interrupt service routine for the motor's encoder
-void isrA() {
-  if(readC) return;
-  readA != readB ? encoderCounts++:encoderCounts--;
-}
-
-void isrB() {
-  if(readC) return;
-  readA == readB ? encoderCounts++:encoderCounts--;  
-}
-
-// PID controller
-double calculatePID(struct pid* controller, double measured, double predicted){
-    double error = measured - predicted;
-    double Pout = controller->Kp * error;
-    
-    controller->integral += error * controller->dt;
-    double Iout = controller->Ki * controller->integral;
-
-    double derivative = (error - controller->error) / controller->dt;
-    double Dout = controller->Kd * derivative;
-
-    double output = Pout + Iout + Dout;
-    printf("output: %f\n", output);
-
-    if(output > controller->max)
-        output = controller->max;
-    if(output < controller->min)
-        output = controller->min;
-
-    controller->error = error;
-
-    return output;
+  Serial.println(measuredSpeed);
 }

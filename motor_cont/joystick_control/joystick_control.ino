@@ -1,26 +1,7 @@
-#include <Servo.h>
-Servo motor;
-
-#define enA 3
-#define in1 4
-#define in2 5
-#define enB 10
-#define in3 6
-#define in4 7
- 
 int motorSpeedA = 0;
 int motorSpeedB = 0;
  
 void setup() {
-  Serial.begin(9600);
-  motor.attach(enA);
-  
-  //pinMode(enA, OUTPUT);
-  pinMode(enB, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
-  pinMode(in3, OUTPUT);
-  pinMode(in4, OUTPUT);
 }
  
 void loop() {
@@ -30,10 +11,6 @@ void loop() {
     // values between 470 and 550 are considered centre
     // y < 470: motors go backwards
     // y > 550: motors go forwards
-
-    // motor.write --> 0 <= x <= 180
-    // 0 <= x <= 90 --> motor goes forward
-    // 90 <= x <= 180 --> motor goes backwards
  
     if(yAxis < 470) {
         // set motor A backward
@@ -100,13 +77,10 @@ void loop() {
     if(motorSpeedB<70) {
         motorSpeedB = 0;
     }
-    // send PWM signal to motors
-    //analogWrite(enA, motorSpeedA);
-    //analogWrite(enB, motorSpeedB);
-    // TODO: work out connections for DC motors (and H-bridge) 
-    Serial.print(motorSpeedA);
-    Serial.print("\t");
-    Serial.println(motorSpeedB);
-    motor.write(motorSpeedA);
-}
 
+    // TODO: map the value from the lowest to the highest motor speed
+    
+    // send PWM signal to motors
+    // motorSpeedA --> serial
+    // motorSpeedB --> serial
+}
