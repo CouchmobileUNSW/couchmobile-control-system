@@ -66,6 +66,8 @@ void loop() {
 
   showResults(desLeft, leftSpeed);
   showResults(desRight, rightSpeed);
+
+  delay(250);
 }
 
 /*

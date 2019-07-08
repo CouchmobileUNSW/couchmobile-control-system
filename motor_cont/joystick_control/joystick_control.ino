@@ -1,6 +1,8 @@
 int motorSpeedA = 0;
 int motorSpeedB = 0;
- 
+
+int maxSpeed = 5; // value is in rps // TODO
+
 void setup() {
 }
  
@@ -78,7 +80,9 @@ void loop() {
         motorSpeedB = 0;
     }
 
-    // TODO: map the value from the lowest to the highest motor speed
+    // Map the values from the lowest to the highest motor speed
+    motorSpeedA = map(motorSpeedA, 0, 255, 0, maxSpeed);
+    motorSpeedB = map(motorSpeedB, 0, 255, 0, maxSpeed);
     
     // send PWM signal to motors
     // motorSpeedA --> serial
