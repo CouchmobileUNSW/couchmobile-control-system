@@ -8,7 +8,8 @@ Encoder rightEncoder(RIGHT_ENCODER); // pins 18,19
 void setup() {
   // Set up serial
   NeoSerial.begin(115200);
-  
+
+  NeoSerial.println("Starting up.");
   // Set up encoder
   leftEncoder.begin();
   rightEncoder.begin();

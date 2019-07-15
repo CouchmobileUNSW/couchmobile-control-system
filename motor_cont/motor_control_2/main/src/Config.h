@@ -27,8 +27,8 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 // ----Controller---- = MUST have size >= max(N_e, N_m)
 #define CONTROL_MAX_HISTORY 3   // history of e and m to store
 #define RING_BUFFER_SIZE 3      // ring buffer used in controller
-//#define CONTROL_DIRECT        // Use direct controller by Vong
-#define CONTROL_PID             // Use PID controller by William
+#define CONTROL_DIRECT        // Use direct controller by Vong
+//#define CONTROL_PID             // Use PID controller by William
 
 // ----Robot----
 // Car parameters
