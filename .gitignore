@@ -3,5 +3,5 @@
 
 **/.codelite/
 **/cmake-build-Debug/
-.project
-.workspace
+**/*.project
+**/*.workspace
