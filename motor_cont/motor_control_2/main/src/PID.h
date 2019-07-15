@@ -9,14 +9,16 @@ private:
     initPID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
 public:
     // PID gains
-    float Kp, Ki, Kd;
+    float Kp = 0;
+    float Ki = 0;
+    float Kd = 0;
 
     // Saturate outputs
     float outMin = -1024;
     float outMax = 1024;
     
     // Saturate integral to prevent integral windup
-    float iMax;
+    float iMax = 0;
     
     PID();
     PID(float Kp, float Ki, float Kd, float outMin, float outMax);

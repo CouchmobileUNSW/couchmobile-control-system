@@ -41,7 +41,6 @@ public:
 #elif defined(CONTROL_PID)
     void setGains(float Kp, float Ki, float Kd);
     void setIntegralMax(float iMax);
-    void begin();
 #endif
     void setRange(float min, float max);
 
