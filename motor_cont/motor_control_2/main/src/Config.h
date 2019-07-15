@@ -15,8 +15,8 @@ static const uint8_t motor_N_e = 3, motor_N_m = 2;
 static const float motor_e_gains[] = {64.6221109336773, -107.0597795006965, 44.2599059086172};
 static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 
-#define KP_DEFAULT 0
-#define KI_DEFAULT 0
+#define KP_DEFAULT -100
+#define KI_DEFAULT -40
 #define KD_DEFAULT 0
 
 // Wheel parameters
@@ -27,8 +27,8 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 // ----Controller---- = MUST have size >= max(N_e, N_m)
 #define CONTROL_MAX_HISTORY 3   // history of e and m to store
 #define RING_BUFFER_SIZE 3      // ring buffer used in controller
-#define CONTROL_DIRECT        // Use direct controller by Vong
-//#define CONTROL_PID             // Use PID controller by William
+//#define CONTROL_DIRECT        // Use direct controller by Vong
+#define CONTROL_PID             // Use PID controller by William
 
 // ----Robot----
 // Car parameters

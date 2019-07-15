@@ -32,9 +32,11 @@ void loop() {
   }
   
   // Take in Serial input if available
-  while(NeoSerial.available() > 0) {
-    v_d = NeoSerial.parseFloat();
-    leftMotor.setSpeed(v_d);
+  if (NeoSerial.available() > 0) {
+    while(NeoSerial.available() > 0) {
+      v_d = NeoSerial.parseFloat();
+      leftMotor.setSpeed(v_d);
+    }
   }
 }
 

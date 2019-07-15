@@ -2,6 +2,7 @@
 #define PID_H
 
 #include "Arduino.h"
+#include "Config.h"
 
 class PID {
 private:
@@ -11,7 +12,8 @@ public:
     float Kp, Ki, Kd;
 
     // Saturate outputs
-    float outMin, outMax;
+    float outMin = -1024;
+    float outMax = 1024;
     
     // Saturate integral to prevent integral windup
     float iMax;
