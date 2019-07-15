@@ -6,8 +6,8 @@
 #include "Config.h"
 #include "PID.h"
 
-#define CONTROL_DIRECT
-
+//#define CONTROL_DIRECT
+#define CONTROL_PID
 
 /*  NEED: to ensure MAX_HISTORY is smaller than or equal to
             BUFFER_SIZE in "RingBuffer.h"
@@ -28,7 +28,7 @@ private:
     uint8_t N_e;            // error coefficients 
     uint8_t N_m;            // control effort coefficients
 #elif defined(CONTROL_PID)
-    
+    PID pid;
 #endif
 
     // Controller limits (saturation limits)
@@ -38,10 +38,13 @@ private:
 public:
     // Config
     Controller();
+    Controller(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
 #ifdef CONTROL_DIRECT
     void setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m);
 #elif defined(CONTROL_PID)
     void setGains(float Kp, float Ki, float Kd);
+    void setIntegralMax(float iMax);
+    void begin();
 #endif
     void setRange(float min, float max);
 

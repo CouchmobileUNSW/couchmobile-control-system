@@ -7,6 +7,7 @@ Controller::Controller() {
 }   
 
 // Set gains
+#ifdef CONTROL_DIRECT
 void Controller::setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m) {
     // Define number of elements
     N_e = _N_e;
@@ -21,6 +22,23 @@ void Controller::setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m) 
         m_gains[i] = m_in[i];
     }
 }
+#elif defined(CONTROL_PID)
+Controller(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax) {
+    pid = PID(Kp, Ki, Kd, outMin, outMax, iMax);
+    m_min = outMin;
+    m_max = outMax;
+}
+
+void setGains(float Kp, float Ki, float Kd) {
+    pid.Kp = Kp;
+    pid.Ki = Ki;
+    pid.Kd = Kd;
+}
+
+void setIntegralMax(float iMax) {
+    pid.iMax = iMax;
+}
+#endif
 
 // Set controller limits
 void Controller::setRange(float min, float max) {
