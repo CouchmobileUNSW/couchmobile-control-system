@@ -1,2 +1,7 @@
 .vscode
 .DS_Store
+
+**/.codelite/
+**/cmake-build-Debug/
+.project
+.workspace
