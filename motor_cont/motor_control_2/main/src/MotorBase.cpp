@@ -19,9 +19,15 @@ void MotorBase::begin(){
 }
 
 // Sets controller gains
+#ifdef CONTROL_DIRECT
 void MotorBase::setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m) {
     cont.setGains(e_in, _N_e, m_in, _N_m);
 }
+#elif defined(CONTROL_PID)
+void MotorBase::setGains(float Kp, float Ki, float Kd) {
+    cont.setGains(Kp, Ki, Kd);
+}
+#endif
 
 // Sets encoder speed in rad/s
 void MotorBase::setRadianSpeed(float w) {

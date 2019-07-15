@@ -54,6 +54,32 @@ link_directories(
     .
 )
 
+# Define the CXX sources
+set ( CXX_SRCS
+    ${CMAKE_CURRENT_LIST_DIR}/src/compile_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/PID.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test_files/testStandard.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/RobotBase.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Euler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/SparkFun_BNO080_Arduino_Library.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/MotorPWM.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/MotorBase.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Stanley.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Motor.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/myBNO080.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/SpeedEncoder.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/test_files/median.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/PathReader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Encoder.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Controller.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/utility/BTimerDefs.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/utility/ATimerDefs.cpp
+)
+
+set_source_files_properties(
+    ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
+    " -g -O0 -Wall")
+
 if(WIN32)
     enable_language(RC)
     set(CMAKE_RC_COMPILE_OBJECT

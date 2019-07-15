@@ -9,7 +9,7 @@ PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax)
     iMax = 0;
 }
 
-PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax)
+PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax)
     : Kp(Kp), Ki(Ki), Kd(Kd), outMin(outMin), outMax(outMax), iMax(iMax) {
         
 }

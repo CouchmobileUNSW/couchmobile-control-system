@@ -6,9 +6,6 @@
 #include "Config.h"
 #include "PID.h"
 
-//#define CONTROL_DIRECT
-#define CONTROL_PID
-
 /*  NEED: to ensure MAX_HISTORY is smaller than or equal to
             BUFFER_SIZE in "RingBuffer.h"
 */

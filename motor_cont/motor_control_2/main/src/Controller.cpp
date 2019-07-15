@@ -23,19 +23,19 @@ void Controller::setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m) 
     }
 }
 #elif defined(CONTROL_PID)
-Controller(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax) {
+Controller::Controller(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax) {
     pid = PID(Kp, Ki, Kd, outMin, outMax, iMax);
     m_min = outMin;
     m_max = outMax;
 }
 
-void setGains(float Kp, float Ki, float Kd) {
+void Controller::setGains(float Kp, float Ki, float Kd) {
     pid.Kp = Kp;
     pid.Ki = Ki;
     pid.Kd = Kd;
 }
 
-void setIntegralMax(float iMax) {
+void Controller::setIntegralMax(float iMax) {
     pid.iMax = iMax;
 }
 #endif
@@ -47,6 +47,7 @@ void Controller::setRange(float min, float max) {
 }
 
 // --------Controller functions--------
+#ifdef CONTROL_DIRECT
 float Controller::getControlEffort(float e) {
     float m = 0;
     uint8_t i;
@@ -74,6 +75,11 @@ float Controller::getControlEffort(float e) {
 
     return m;
 }
+#elif defined(CONTROL_PID)
+float Controller::getControlEffort(float e) {
+    return pid.pid(e);
+}
+#endif
 
 float Controller::getControlEffort(float w_d, float w_a) {
     return getControlEffort( w_d - w_a );
