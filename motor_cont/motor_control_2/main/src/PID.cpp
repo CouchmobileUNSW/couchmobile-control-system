@@ -1,5 +1,9 @@
 #include "PID.h"
 
+PID::PID() {
+    
+}
+
 PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax)
     : Kp(Kp), Ki(Ki), Kd(Kd), outMin(outMin), outMax(outMax) {
     iMax = 0;

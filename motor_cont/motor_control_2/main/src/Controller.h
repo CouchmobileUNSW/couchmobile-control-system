@@ -4,6 +4,10 @@
 #include "Arduino.h"
 #include "RingBuffer.h"
 #include "Config.h"
+#include "PID.h"
+
+#define CONTROL_DIRECT
+
 
 /*  NEED: to ensure MAX_HISTORY is smaller than or equal to
             BUFFER_SIZE in "RingBuffer.h"
@@ -11,6 +15,7 @@
 
 class Controller {
 private:
+#ifdef CONTROL_DIRECT
     // History of errors (e) and control effort (m)
     RingBuffer<float> e_history;
     RingBuffer<float> m_history;
@@ -22,6 +27,9 @@ private:
     // Number of coefficients
     uint8_t N_e;            // error coefficients 
     uint8_t N_m;            // control effort coefficients
+#elif defined(CONTROL_PID)
+    
+#endif
 
     // Controller limits (saturation limits)
     float m_min;
@@ -30,7 +38,11 @@ private:
 public:
     // Config
     Controller();
+#ifdef CONTROL_DIRECT
     void setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m);
+#elif defined(CONTROL_PID)
+    void setGains(float Kp, float Ki, float Kd);
+#endif
     void setRange(float min, float max);
 
     // Controller
@@ -45,6 +57,5 @@ public:
     // Helper function
     float saturateControlEffort(float m);
 };
-
 
 #endif

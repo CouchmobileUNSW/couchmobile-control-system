@@ -16,6 +16,7 @@ public:
     // Saturate integral to prevent integral windup
     float iMax;
     
+    PID();
     PID(float Kp, float Ki, float Kd, float outMin, float outMax);
     PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
     float pid(const float& _delta);
