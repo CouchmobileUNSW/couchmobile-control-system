@@ -1,0 +1,2 @@
+COPY THIS LIBRARY INTO
+Arduino/Libraries
