@@ -44,12 +44,6 @@ float PID::pid(const float& _delta) {
     lastDelta = _delta;
     prevTime = currTime;
     
-    NeoSerial.println(p);
-    NeoSerial.println(i);
-    NeoSerial.println(d);
-    NeoSerial.println(outMin);
-    NeoSerial.println(outMax);
-    
     float output = p + i + d;
 
     // Saturate output
