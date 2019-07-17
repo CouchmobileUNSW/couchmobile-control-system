@@ -20,6 +20,10 @@ void PID::initPID() {
     prevTime = micros();
 }
 
+void PID::initPID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax) {
+    
+}
+
 float PID::pid(const float& _delta) {
     
     uint32_t currTime = micros();
