@@ -6,7 +6,8 @@
 
 class PID {
 private:
-    initPID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
+    void initPID();
+    void initPID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
     float lastDelta;
     float integral;
     uint32_t prevTime;

@@ -14,7 +14,7 @@ PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax)
     initPID();
 }
 
-PID::initPID() {
+void PID::initPID() {
     lastDelta = 0;
     integral = 0;
     prevTime = micros();
