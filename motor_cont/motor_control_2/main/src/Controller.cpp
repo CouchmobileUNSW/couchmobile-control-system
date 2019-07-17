@@ -44,6 +44,10 @@ void Controller::setIntegralMax(float iMax) {
 void Controller::setRange(float min, float max) {
     m_min = min;
     m_max = max;
+#ifdef CONTROL_PID
+    pid.outMin = min;
+    pid.outMax = max;
+#endif
 }
 
 // --------Controller functions--------
