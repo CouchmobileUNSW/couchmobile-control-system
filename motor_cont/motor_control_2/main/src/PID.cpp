@@ -1,26 +1,26 @@
 #include "PID.h"
 
 PID::PID() {
-    
+    initPID();
 }
 
 PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax)
     : Kp(Kp), Ki(Ki), Kd(Kd), outMin(outMin), outMax(outMax) {
+    initPID();
 }
 
 PID::PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax)
     : Kp(Kp), Ki(Ki), Kd(Kd), outMin(outMin), outMax(outMax), iMax(iMax) {
-        
+    initPID();
 }
 
-PID::initPID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax) {
-    
+PID::initPID() {
+    lastDelta = 0;
+    integral = 0;
+    prevTime = micros();
 }
 
 float PID::pid(const float& _delta) {
-    static float lastDelta = 0;
-    static float integral = 0;
-    static uint32_t prevTime = micros();
     
     uint32_t currTime = micros();
     float dt = (float) (uint32_t(currTime - prevTime))/1000000.0;
