@@ -47,6 +47,7 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 #define BAUD_RATE 230400
 
 // ----Path tracking----
+
 #define STANLEY_GAIN 1.0    // higher corrects track error but oscillates
 #define REDUCTION_FACTOR 2
 #define TEMP_MULT 3.0

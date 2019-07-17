@@ -13,7 +13,9 @@ RobotBase robot;
 Pose pose;
 Euler ode;
 
-// 
+// PID the input values to achieve a slower response
+// The motor control should have close to optimal response
+PID pidV, pidW;
 
 // EMERGENCY STOP
 
@@ -29,6 +31,10 @@ void setup() {
 
   // Led debug
   pinMode(EMERGENCY_STOP_PIN, INPUT);
+
+  // Setup PID for v and w
+  pidV = PID(PID_V_KP, PID_V_KI, PID_V_KD, PID_V_MIN, PID_V_MAX, PID_V_IMAX);
+  pidW = PID(PID_W_KP, PID_W_KI, PID_W_KD, PID_W_MIN, PID_W_MAX, PID_W_IMAX);
 
   // Setup robot
   robot.begin();
