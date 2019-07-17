@@ -41,8 +41,8 @@ void setup() {
   pwm.writeValue(0);
   delay(3000);
   const int numIncrements = 1000;
-  for (int i = 0; i < numIncrements; i++) {
-    pwmVal = (float) CONTROL_MIN + (CONTROL_MAX - CONTROL_MIN)/numIncrements;
+  for (int i = 0; i <= numIncrements; i++) {
+    pwmVal = (float) CONTROL_MIN + (CONTROL_MAX - CONTROL_MIN)/numIncrements * i;
     pwm.writeValue(pwmVal);
     NeoSerial.print("PWMVAL: ");
     NeoSerial.println(pwmVal);
