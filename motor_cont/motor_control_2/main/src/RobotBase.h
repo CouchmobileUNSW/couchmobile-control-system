@@ -9,8 +9,6 @@
 class RobotBase {
 private:
     // Motors
-    Motor leftMotor;
-    Motor rightMotor;
     myBNO080 imu;
 
     // Update status - set flags when data available
@@ -21,6 +19,9 @@ private:
     float w_cm, w_d;    // angular velocity of centre
 
 public:
+    Motor leftMotor;
+    Motor rightMotor;
+
     // Config
     RobotBase(uint32_t T = SAMPLE_TIME, uint32_t resetTime = RESET_TIME);
     void begin();

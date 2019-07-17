@@ -44,6 +44,8 @@ public:
     void setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m);
 #elif defined(CONTROL_PID)
     void setGains(float Kp, float Ki, float Kd);
+    void setRange(float min, float max);
+    void setIMax(float iMax);
 #endif
     void setRadianSpeed(float w);   // set speed BEFORE control
     void controlSpeed();            // writes to PWM based on control effort

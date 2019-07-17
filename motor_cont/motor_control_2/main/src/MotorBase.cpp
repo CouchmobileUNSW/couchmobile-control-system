@@ -27,6 +27,13 @@ void MotorBase::setGains(float *e_in, uint8_t _N_e, float *m_in, uint8_t _N_m) {
 void MotorBase::setGains(float Kp, float Ki, float Kd) {
     cont.setGains(Kp, Ki, Kd);
 }
+
+void MotorBase::setRange(float min, float max) {
+    cont.setRange(min, max);
+}
+void MotorBase::setIMax(float iMax) {
+    cont.setIntegralMax(iMax);
+}
 #endif
 
 // Sets encoder speed in rad/s

@@ -57,6 +57,7 @@ bool updateControl = true;
 void loop() {
   static uint32_t sampleLast = millis();
   // Update pose and control speed
+  /*
   if(robot.sampleData()) {
     // Control speed
     robot.drive();
@@ -67,13 +68,16 @@ void loop() {
 
     updateControl = true;
   }
+  */
+  updateControl = true;
+  delay(8);
 
   if (NeoSerial.available() > 0) {
     delay(1);
     int strNum = 0;
     while (NeoSerial.available() > 0) {
       int inChar = NeoSerial.read();
-      if (isDigit(inChar) || inChar == '.') {
+      if (isDigit(inChar) || inChar == '.' || inChar == '-') {
         // convert the incoming byte to a char and add it to the string:
         inString[strNum] += (char)inChar;
       }
@@ -110,9 +114,7 @@ void loop() {
     wDesired += pidW.pid(wInput-wDesired);
     
     // Set speed inputs
-    if(!digitalRead(EMERGENCY_STOP_PIN)) {
-      robot.setSpeed(vDesired, wDesired);
-    }
+    robot.setSpeed(vDesired, wDesired);
 
     NeoSerial.print("Desired: ");
     NeoSerial.print(vDesired);
@@ -127,7 +129,7 @@ void loop() {
   }
 
   if(digitalRead(EMERGENCY_STOP_PIN)) {
-    robot.setSpeed(0,0);
+    //robot.setSpeed(0,0);
   }
 }
 

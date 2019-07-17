@@ -11,7 +11,7 @@ void Motor::begin() {
 #ifdef CONTROL_DIRECT
     setGains(motor_e_gains, motor_N_e, motor_m_gains, motor_N_m);
 #elif defined(CONTROL_PID)
-    setGains(KP_DEFAULT, KI_DEFAULT, KD_DEFAULT);
+    
 #endif
 
 }

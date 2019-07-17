@@ -9,7 +9,7 @@
 // Single motor integration tests
 //#define MOTOR_IDENTIFY  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
-#define MOTOR_LINEAR_SPEED  // motors in m/s
+//#define MOTOR_LINEAR_SPEED  // motors in m/s
 
 // Combined motor integration tests
 //#define ROBOT_DRIVER  // drives robot using v and w
@@ -25,7 +25,7 @@
 //#define NUC_SERIAL
 
 // Integrated code
-//#define INTEGRATED_SYSTEM
+#define INTEGRATED_SYSTEM
 
 // Debug statements
 //#define DEBUG
@@ -43,9 +43,9 @@ void logTime() {
 // --- PARAMETERS ---
 // PIDV Parameters; They set the response time to a desired linear velocity
 // PID gain values
-#define PID_V_KP    0.02
-#define PID_V_KI    0.0
-#define PID_V_KD    0.0
+#define PID_V_KP    0.4
+#define PID_V_KI    0.02
+#define PID_V_KD    0.000
 
 // PID output saturation values
 #define PID_V_MIN   -1.0

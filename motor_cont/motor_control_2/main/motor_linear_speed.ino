@@ -8,7 +8,7 @@
 #define PLOTTER
 
 // Create motor object
-Motor leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
+Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 
 void setup() {
   // Start up serial

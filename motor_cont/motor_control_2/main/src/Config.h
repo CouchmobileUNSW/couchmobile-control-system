@@ -15,8 +15,8 @@ static const uint8_t motor_N_e = 3, motor_N_m = 2;
 static const float motor_e_gains[] = {64.6221109336773, -107.0597795006965, 44.2599059086172};
 static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 
-#define KP_DEFAULT 50
-#define KI_DEFAULT 0
+#define KP_DEFAULT 200
+#define KI_DEFAULT 20
 #define KD_DEFAULT 0
 
 // Wheel parameters
