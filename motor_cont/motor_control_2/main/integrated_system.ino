@@ -13,23 +13,11 @@ RobotBase robot;
 Pose pose;
 Euler ode;
 
-// Path tracker
-Stanley stanley;
-
-// NUC to STM32 serial writer/loader
-PathReader pathReader;
-
-// Serial RX interrupt
-static void char_received( uint8_t c ) {
-  pathReader.readPathData(c);
-}
+// 
 
 // EMERGENCY STOP
 
 void setup() {
-  // Setup serial
-  pathReader.begin(230400);
-  nucSerial.attachInterrupt( char_received );
 
   // Serial debug
   #ifdef DEBUG
@@ -56,60 +44,32 @@ void loop() {
   if(robot.sampleData()) {
     // Control speed
     robot.drive();
-    
-    // Update position
-    pose = ode.integrate(robot.getVcm(), robot.getYaw(), robot.getDeltaTime());
 
     #ifdef DEBUG  // Print data
       logTime();
     #endif
-    
-    stateTrack++; statePoseSend++;
-
   }
 
   // Update path tracker
-  if(stateTrack >= 2) {
-    // Run stanley controller
-    ControlInput speedInput = stanley.calcControlEffort(pose);
+  bool updateControl = true;
+  if(updateControl) {
+    // Run controller based on inputs
+    float v_d = 0.0;
+    float w_d = 0.0;
     
     // Set speed inputs
     if(!digitalRead(EMERGENCY_STOP_PIN)) {
-      robot.setSpeed(speedInput);
+      robot.setSpeed(v_d, w_d);
     }
-
-    // Reset pose
-    stateTrack = 0;
   }
 
   if(digitalRead(EMERGENCY_STOP_PIN)) {
     robot.setSpeed(0,0);
   }
-
-  // Read path
-  if(!pathReader.readStatus()) {
-    stanley.setPath(*pathReader.getPathDataPtr());
-    pathReader.setReadFlag();
-
-    #ifdef DEBUG
-      debugSerial.println("Success\n");
-      pathReader.printPathData();
-    #endif
-  }
-
-  // Send pose via serial
-  if(statePoseSend >= 1) {
-    pathReader.sendPose(pose);
-    statePoseSend = 0;
-  }
 }
 
 // Prints data
 void printData() {
-  // Print position (m)
-  debugSerial.print(pose.x, 5); debugSerial.print(", ");
-  debugSerial.print(pose.y, 5); debugSerial.print(", ");
-  debugSerial.print(stanley.getCurrTargetIdx()); debugSerial.print(", ");
   logTime();
   debugSerial.println();  
 }
