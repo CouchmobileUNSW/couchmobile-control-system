@@ -23,6 +23,8 @@ public:
     PID();
     PID(float Kp, float Ki, float Kd, float outMin, float outMax);
     PID(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);
+    
+    // Error given by desired - actual value
     float pid(const float& _delta);
 };
 
