@@ -20,7 +20,20 @@ PID pidV, pidW;
 // EMERGENCY STOP
 
 void setup() {
-
+  // --- MOTOR SETUP ---
+  Motor leftMotor(LEFT_MOTOR, 8e3);
+  Motor rightMotor(RIGHT_MOTOR, 8e3);
+  leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
+  rightMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
+  leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
+  rightMotor.setRange(MOTOR_MIN, MOTOR_MAX);
+  leftMotor.setIMax(MOTOR_IMAX);
+  rightMotor.setIMax(MOTOR_IMAX);
+  leftMotor.begin();
+  rightMotor.begin();
+  robot.leftMotor = leftMotor;
+  robot.rightMotor = rightMotor;
+  
   NeoSerial.begin(115200);
 
   // Serial debug
@@ -57,7 +70,7 @@ bool updateControl = true;
 void loop() {
   static uint32_t sampleLast = millis();
   // Update pose and control speed
-  /*
+  
   if(robot.sampleData()) {
     // Control speed
     robot.drive();
@@ -68,9 +81,6 @@ void loop() {
 
     updateControl = true;
   }
-  */
-  updateControl = true;
-  delay(8);
 
   if (NeoSerial.available() > 0) {
     delay(1);

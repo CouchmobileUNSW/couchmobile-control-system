@@ -4,7 +4,7 @@
 #include "src/Motor.h"
 
 // Macros
-#define SAMPLE_TIME 8e3
+#define SAMPLE_TIME 16e3
 #define PLOTTER
 
 // Create motor object
@@ -13,7 +13,10 @@ Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 void setup() {
   // Start up serial
   NeoSerial.begin(115200);
-  
+
+  leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
+  leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
+  leftMotor.setIMax(MOTOR_IMAX);
   // Config motors
   leftMotor.begin();
 

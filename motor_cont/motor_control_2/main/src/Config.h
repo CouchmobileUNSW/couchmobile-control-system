@@ -20,7 +20,7 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 #define KD_DEFAULT 0
 
 // Wheel parameters
-#define WHEEL_RADIUS 0.05       // m
+#define WHEEL_RADIUS 0.075       // m
 #define MAX_RADIAN_SPEED 34.00  // rad/s
 #define MAX_WHEEL_SPEED WHEEL_RADIUS * MAX_RADIAN_SPEED
 

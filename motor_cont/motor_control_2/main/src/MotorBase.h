@@ -17,7 +17,7 @@
 #define CONTROL_MAX 1024
 
 // Wheel parameters
-#define TICK_RATIO 1920
+#define TICK_RATIO 790
 
 // Motor selection
 #define LEFT_MOTOR 0
