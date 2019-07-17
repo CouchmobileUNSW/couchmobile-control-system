@@ -21,6 +21,8 @@ PID pidV, pidW;
 
 void setup() {
 
+  NeoSerial.begin(115200);
+
   // Serial debug
   #ifdef DEBUG
     debugSerial.println(F("Starting program"));
@@ -44,6 +46,14 @@ void setup() {
 // State machine for motor controllers
 uint8_t stateTrack, statePoseSend;
 
+float vInput = 0.0;
+float wInput = 0.0;
+float vDesired = 0.0;
+float wDesired = 0.0;
+
+String inString[2] = {""};
+bool updateControl = true;
+
 void loop() {
   static uint32_t sampleLast = millis();
   // Update pose and control speed
@@ -54,19 +64,66 @@ void loop() {
     #ifdef DEBUG  // Print data
       logTime();
     #endif
+
+    updateControl = true;
   }
 
-  // Update path tracker
-  bool updateControl = true;
+  if (NeoSerial.available() > 0) {
+    delay(1);
+    int strNum = 0;
+    while (NeoSerial.available() > 0) {
+      int inChar = NeoSerial.read();
+      if (isDigit(inChar) || inChar == '.') {
+        // convert the incoming byte to a char and add it to the string:
+        inString[strNum] += (char)inChar;
+      }
+      if (inChar == ',') {
+        strNum = 1;
+      }
+      // if you get a newline, print the string, then the string's value:
+      if (inChar == '\n') {
+        NeoSerial.print("Value:");
+        NeoSerial.print(inString[0].toFloat());
+        NeoSerial.print(",");
+        NeoSerial.print(inString[1].toFloat());
+        NeoSerial.print(" String: ");
+        NeoSerial.print(inString[0]);
+        NeoSerial.print(",");
+        NeoSerial.println(inString[1]);
+
+        // Set the recorded values
+        vInput = inString[0].toFloat();
+        wInput = inString[1].toFloat();
+        
+        // clear the string for new input:
+        inString[0] = "";
+        inString[1] = "";
+
+      }
+    }
+  }
+
+  // Update control signals
   if(updateControl) {
     // Run controller based on inputs
-    float v_d = 0.0;
-    float w_d = 0.0;
+    vDesired += pidV.pid(vInput-vDesired);
+    wDesired += pidW.pid(wInput-wDesired);
     
     // Set speed inputs
     if(!digitalRead(EMERGENCY_STOP_PIN)) {
-      robot.setSpeed(v_d, w_d);
+      robot.setSpeed(vDesired, wDesired);
     }
+
+    NeoSerial.print("Desired: ");
+    NeoSerial.print(vDesired);
+    NeoSerial.print(" ");
+    NeoSerial.println(wDesired);
+
+    NeoSerial.print("Inputs: ");
+    NeoSerial.print(vInput);
+    NeoSerial.print(" ");
+    NeoSerial.println(wInput);
+    updateControl = false;
   }
 
   if(digitalRead(EMERGENCY_STOP_PIN)) {
