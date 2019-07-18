@@ -77,8 +77,8 @@ void SpeedEncoder::calculateSpeed() {
     // Calculate speed
     tickSpeed = 1e6*tickSpeed/(currTime-prevTime);
     
-    _filter.push(tickspeed);
-    tickspeed = _filter.value();
+    _filter.push(tickSpeed);
+    tickSpeed = _filter.value();
 }
 
 // Conversion functions

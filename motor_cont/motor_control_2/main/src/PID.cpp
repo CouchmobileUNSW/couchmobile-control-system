@@ -48,7 +48,7 @@ float PID::pid(const float& _delta) {
     lastDelta = _delta;
     prevTime = currTime;
     
-    
+    /*
     NeoSerial.print("Delta: ");
     NeoSerial.println(_delta);
     
@@ -58,6 +58,7 @@ float PID::pid(const float& _delta) {
     NeoSerial.print(",");
     NeoSerial.print(d);
     NeoSerial.println("");
+     */
     
     
     float output = p + i + d;

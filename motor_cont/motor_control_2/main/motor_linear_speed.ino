@@ -2,17 +2,23 @@
 #define MOTOR_LINEAR_SPEED
 
 #include "src/Motor.h"
+#include "src/Filter.h"
 
 // Macros
-#define SAMPLE_TIME 16e3
+#define SAMPLE_TIME 24e3
 #define PLOTTER
 
 // Create motor object
 Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 
+Filter<float> filter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
+Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
+
 void setup() {
   // Start up serial
   NeoSerial.begin(115200);
+
+  leftMotor.enc._filter = encoderFilter;
 
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
@@ -22,6 +28,7 @@ void setup() {
 
   // Set PWM to middle of input range
   leftMotor.setSpeed(0);
+
 }
 
 // Variables to take in Serial inputs
@@ -51,6 +58,9 @@ void printData() {
   float v_d = leftMotor.getDesiredSpeed();  // m/s
   float e = leftMotor.getError();           // m/s
 
+  filter.push(v_a);
+  float v_filtered = filter.value();
+
   // Print data
   #ifndef PLOTTER
     NeoSerial.print("t: "); NeoSerial.print(t);
@@ -62,6 +72,7 @@ void printData() {
   #ifdef PLOTTER
     NeoSerial.print(v_d, 5); NeoSerial.print(", ");
     NeoSerial.print(v_a, 5); NeoSerial.print(", ");
+    NeoSerial.print(v_filtered, 5); NeoSerial.print(", ");
     NeoSerial.print("0, 2");
   #endif
   NeoSerial.println();  

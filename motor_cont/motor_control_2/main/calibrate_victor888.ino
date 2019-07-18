@@ -37,23 +37,36 @@ void setup() {
   pwm.setInputPulse(PWM_PERIOD, PWM_PULSE_LOW, PWM_PULSE_HIGH);
   pwm.setRange(CONTROL_MIN, CONTROL_MAX);
   pwm.begin();
-
+  digitalWrite(A15, LOW);
   pwm.writeValue(0);
-  delay(3000);
+  delay(5000);
+  digitalWrite(A15,HIGH);
   const int numIncrements = 1000;
-  for (int i = 0; i <= numIncrements; i++) {
-    pwmVal = (float) CONTROL_MIN + (CONTROL_MAX - CONTROL_MIN)/numIncrements * i;
-    pwm.writeValue(pwmVal);
-    NeoSerial.print("PWMVAL: ");
-    NeoSerial.println(pwmVal);
-    delay(5);
+  for (int rep = 0; rep < 2; rep++) {
+    for (int i = 0; i <= numIncrements; i++) {
+      pwmVal = (float) CONTROL_MIN + (CONTROL_MAX - CONTROL_MIN)/numIncrements * i;
+      pwm.writeValue(pwmVal);
+      NeoSerial.print("PWMVAL: ");
+      NeoSerial.println(pwmVal);
+      delay(5);
+    }
+    delay(200);
+    for (int i = 0; i <= numIncrements; i++) {
+      pwmVal = (float) CONTROL_MAX + (CONTROL_MIN - CONTROL_MAX)/numIncrements * i;
+      pwm.writeValue(pwmVal);
+      NeoSerial.print("PWMVAL: ");
+      NeoSerial.println(pwmVal);
+      delay(5);
+    }
+    delay(200);
   }
+  pwm.writeValue(0);
 }
 
 void loop() {
-  digitalWrite(13, HIGH);
+  digitalWrite(A15, HIGH);
   delay(100);
-  digitalWrite(13, LOW);
+  digitalWrite(A15, LOW);
   delay(100);
 }
 #endif

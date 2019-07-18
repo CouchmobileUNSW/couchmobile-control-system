@@ -7,10 +7,10 @@
 //#define CONTROLLER
 
 // Single motor integration tests
-#define CALIBRATE
+//#define CALIBRATE
 //#define MOTOR_IDENTIFY  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
-//#define MOTOR_LINEAR_SPEED  // motors in m/s
+#define MOTOR_LINEAR_SPEED  // motors in m/s
 
 // Combined motor integration tests
 //#define ROBOT_DRIVER  // drives robot using v and w
@@ -73,10 +73,10 @@ void logTime() {
 // >> Motor parameters; They set the response time of the motor
 // Units are PWM scale units. -1024 = Max backwards; 1024 = Max forwards
 // PID gain values
-#define MOTOR_KP    50
+#define MOTOR_KP    40
 
 #define MOTOR_KI    0
-#define MOTOR_KD    0
+#define MOTOR_KD    0.3
 
 // PID saturation values
 #define MOTOR_MIN   -1024
@@ -84,3 +84,12 @@ void logTime() {
 
 // PID integral windup saturation value
 #define MOTOR_IMAX  50
+
+// --- ENCODER FILTER ---
+
+const int ENCODER_FILTER_SIZE = 3;
+const float ENCODER_FILTER_COEFFICIENTS[ENCODER_FILTER_SIZE] = {
+  0.500,
+  0.333,
+  0.167
+};

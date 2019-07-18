@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "Encoder.h"
 #include "math.h"
+#include "Filter.h"
 
 // SpeedEncoder class to measure the speed of an encoder
 //   - Ticks are SAMPLED using the Encoder class

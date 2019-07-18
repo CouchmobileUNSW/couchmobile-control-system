@@ -25,9 +25,6 @@
 
 class MotorBase {
 private:
-    SpeedEncoder enc;       // encoder
-    MotorPWM pwm;           // pwm of the motor
-    Controller cont;        // controller
 
     // Speed variables - ease of use
     float w_d;              // desired speed (rad/s)
@@ -35,6 +32,10 @@ private:
     float e;                // error in speed (rad/s)
     float m;                // control effort (control range)
 public:
+    SpeedEncoder enc;       // encoder
+    MotorPWM pwm;           // pwm of the motor
+    Controller cont;        // controller
+    
     // Config
     MotorBase(bool x, uint32_t T);
     void begin();
