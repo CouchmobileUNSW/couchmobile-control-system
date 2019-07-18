@@ -53,7 +53,7 @@ T Filter<T>::value() {
     T val = 0;
     
     for (int i = 0; i < _size; i++) {
-        std::cout << _coefficients[i] << " " << _buffer->peek(i) << std::endl;
+        //std::cout << _coefficients[i] << " " << _buffer->peek(i) << std::endl;
         val += (T) _coefficients[i] * _buffer->peek(i);
     }
     
