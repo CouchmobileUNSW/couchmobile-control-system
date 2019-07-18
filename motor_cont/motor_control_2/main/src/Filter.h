@@ -14,12 +14,25 @@ private:
     T *_coefficients;
     int _size;
 public:
+    Filter();
     Filter(T *coefficients, int size);
     ~Filter();
     
     void push(T newVal);
     T value();
 };
+
+template <typename T>
+Filter<T>::Filter() {
+    _size = 1;
+    _coefficients = new T[size];
+    _buffer = new RingBuffer<T>(size);
+    
+    for (int i = 0; i < size; i++) {
+        _buffer->insert(0);
+        _coefficients[i] = coefficients[i];
+    }
+}
 
 template <typename T>
 Filter<T>::Filter(T *coefficients, int size) {
