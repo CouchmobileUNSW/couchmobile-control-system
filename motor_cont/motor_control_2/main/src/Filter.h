@@ -5,6 +5,9 @@
  *  a series of data using a ring buffer.
 */
 
+#ifndef FILTER_H
+#define FILTER_H
+
 #include "RingBuffer.h"
 
 template <typename T>
@@ -25,13 +28,11 @@ public:
 template <typename T>
 Filter<T>::Filter() {
     _size = 1;
-    _coefficients = new T[size];
-    _buffer = new RingBuffer<T>(size);
+    _coefficients = new T[_size];
+    _buffer = new RingBuffer<T>(_size);
     
-    for (int i = 0; i < size; i++) {
-        _buffer->insert(0);
-        _coefficients[i] = coefficients[i];
-    }
+    _buffer->insert(0);
+    _coefficients[0] = 1;
 }
 
 template <typename T>
@@ -72,3 +73,5 @@ T Filter<T>::value() {
     
     return val;
 }
+
+#endif // FILTER_H
