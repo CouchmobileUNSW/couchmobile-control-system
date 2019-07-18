@@ -71,12 +71,15 @@ void logTime() {
 #define PID_W_IMAX  0.0
 
 // >> Motor parameters; They set the response time of the motor
+
+#define MOTOR_SAMPLE_TIME 8e3 // microseconds
+
 // Units are PWM scale units. -1024 = Max backwards; 1024 = Max forwards
 // PID gain values
-#define MOTOR_KP    40
+#define MOTOR_KP    25
 
-#define MOTOR_KI    0
-#define MOTOR_KD    0.3
+#define MOTOR_KI    20
+#define MOTOR_KD    0.5
 
 // PID saturation values
 #define MOTOR_MIN   -1024

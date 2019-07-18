@@ -21,8 +21,8 @@ PID pidV, pidW;
 
 void setup() {
   // --- MOTOR SETUP ---
-  Motor leftMotor(LEFT_MOTOR, 8e3);
-  Motor rightMotor(RIGHT_MOTOR, 8e3);
+  Motor leftMotor(LEFT_MOTOR, MOTOR_SAMPLE_TIME);
+  Motor rightMotor(RIGHT_MOTOR, MOTOR_SAMPLE_TIME);
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   rightMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
