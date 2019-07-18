@@ -12,8 +12,10 @@
 #ifndef RING_BUFFER_H
 #define RING_BUFFER_H
 
-#include "Arduino.h"
-#include "Config.h"
+//#include "Arduino.h"
+//#include "Config.h"
+
+#define RING_BUFFER_SIZE 1
 
 //#define PRINT_FROM_ZERO  // changes how ring buffer is printed
 
@@ -23,6 +25,7 @@ class RingBuffer {
 private:
     T *buff;
     int head;
+    int _size;
 
 public:
     // Constructor
@@ -47,17 +50,22 @@ template<class T>
 RingBuffer<T>::RingBuffer()
     : buff{}, head(0)  {
     buff = new T[RING_BUFFER_SIZE];
+    _size = RING_BUFFER_SIZE;
 }
 
 template<class T>
 RingBuffer<T>::RingBuffer(int size)
     : buff{}, head(0)  {
+    
     buff = new T[size];
+    _size = size;
 }
 
 template<class T>
 RingBuffer<T>::~RingBuffer() {
-    delete[] buff;
+    if (buff != NULL) {
+        delete[] buff;
+    }
 }
 
 // Insert operation
@@ -80,6 +88,8 @@ template<class T>
 void RingBuffer<T>::printBuffer() {
     int end = positiveModulus(head-1);
     int i = positiveModulus(head);
+    
+    #ifdef Arduino_h
 
     #ifndef PRINT_FROM_ZERO
     // PRINT METHOD 1: from latest element always last
@@ -98,13 +108,14 @@ void RingBuffer<T>::printBuffer() {
         //Serial.print(" ");
     }
     #endif
+    #endif
 
     //Serial.println();
 }
 
 template<class T>
 int RingBuffer<T>::positiveModulus(int x) {
-    return (RING_BUFFER_SIZE + x) % RING_BUFFER_SIZE;
+    return (_size + x) % _size;
 }
 
 #endif
