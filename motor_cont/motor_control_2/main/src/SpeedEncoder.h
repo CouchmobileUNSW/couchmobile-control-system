@@ -24,6 +24,8 @@ private:
     uint16_t tickRatio;    // counts/rev
 
 public:
+    Filter<float> _filter;
+    
     // Config
     SpeedEncoder(bool _encoderNum, uint16_t _tickRatio, uint32_t _T);
 
