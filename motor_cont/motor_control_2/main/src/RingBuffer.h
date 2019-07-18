@@ -3,6 +3,10 @@
     - A ring buffer class to store data efficiently
     - A FIFO buffer that overwrites the first inserted element if
         we exceed the buffer size
+    
+    Modified by: William Chen
+    Date: 18/07/2019
+    Description: Implemented variable size buffer creation
 
 */
 #ifndef RING_BUFFER_H
@@ -17,12 +21,14 @@
 template<class T>
 class RingBuffer {
 private:
-    T buff[RING_BUFFER_SIZE];
+    T *buff;
     int head;
 
 public:
     // Constructor
     RingBuffer();
+    RingBuffer(int size);
+    ~RingBuffer();
 
     // Insert operation
     void insert(const T &obj);
@@ -40,6 +46,18 @@ public:
 template<class T>
 RingBuffer<T>::RingBuffer()
     : buff{}, head(0)  {
+    buff = new T[RING_BUFFER_SIZE];
+}
+
+template<class T>
+RingBuffer<T>::RingBuffer(int size)
+    : buff{}, head(0)  {
+    buff = new T[size];
+}
+
+template<class T>
+RingBuffer<T>::~RingBuffer() {
+    delete[] buff;
 }
 
 // Insert operation
