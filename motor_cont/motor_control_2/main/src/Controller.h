@@ -5,6 +5,7 @@
 #include "RingBuffer.h"
 #include "Config.h"
 #include "PID.h"
+#include "Filter.h"
 
 /*  NEED: to ensure MAX_HISTORY is smaller than or equal to
             BUFFER_SIZE in "RingBuffer.h"
@@ -33,6 +34,8 @@ private:
     float m_max;
 
 public:
+    Filter<float> _filter;
+
     // Config
     Controller();
     Controller(float Kp, float Ki, float Kd, float outMin, float outMax, float iMax);

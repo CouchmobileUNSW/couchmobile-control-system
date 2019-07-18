@@ -80,6 +80,8 @@ float Controller::getControlEffort(float e) {
 }
 #elif defined(CONTROL_PID)
 float Controller::getControlEffort(float e) {
+    _filter.push(e);
+    e = _filter.value();
     return pid.pid(e);
 }
 #endif
