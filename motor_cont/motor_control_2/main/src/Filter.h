@@ -19,6 +19,7 @@ private:
 public:
     Filter();
     Filter(T *coefficients, int size);
+    Filter(Filter<T>& copy);
     ~Filter();
     
     void push(T newVal);
@@ -37,14 +38,26 @@ Filter<T>::Filter() {
 
 template <typename T>
 Filter<T>::Filter(T *coefficients, int size) {
+    _size = size;
     _coefficients = new T[size];
     _buffer = new RingBuffer<T>(size);
-    _size = size;
     
     // Initialize buffer and coefficient arrays
     for (int i = 0; i < size; i++) {
         _buffer->insert(0);
         _coefficients[i] = coefficients[i];
+    }
+}
+
+template<typename T>
+Filter<T>::Filter(Filter<T>& copy) {
+    _size = copy._size;
+    _coefficients = new T[_size];
+    _buffer = new RingBuffer<T>(*(copy._buffer));
+    
+    // Copy buffer and coefficient arrays
+    for (int i = 0; i < _size; i++) {
+        _coefficients[i] = copy._coefficients[i];
     }
 }
 

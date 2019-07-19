@@ -31,12 +31,13 @@ public:
     // Constructor
     RingBuffer();
     RingBuffer(int size);
+    RingBuffer(RingBuffer& copy);
     ~RingBuffer();
 
     // Insert operation
     void insert(const T &obj);
 
-    // Peek operation
+    // Peek operation; i=0 is latest, i=1 is previous inserted object, etc..
     T peek(int i);
 
     // --------Debug--------
@@ -59,6 +60,16 @@ RingBuffer<T>::RingBuffer(int size)
     
     buff = new T[size];
     _size = size;
+}
+
+template<class T>
+RingBuffer<T>::RingBuffer(RingBuffer& copy) {
+    _size = copy._size;
+    head = copy.head;
+    buff = new T[_size];
+    for (int i = 0; i < _size; i++) {
+        buff[i] = copy.buff[i];
+    }
 }
 
 template<class T>
