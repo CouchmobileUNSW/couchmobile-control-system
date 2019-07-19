@@ -7,7 +7,7 @@
 #include "src/PathReader.h"
 
 // Robot
-RobotBase robot;
+RobotBase robot(MOTOR_SAMPLE_TIME, IMU_RESET_TIME);
 
 // Odometry
 Pose pose;
@@ -17,20 +17,28 @@ Euler ode;
 // The motor control should have close to optimal response
 PID pidV, pidW;
 
+Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
+
 // EMERGENCY STOP
 
 void setup() {
   // --- MOTOR SETUP ---
   Motor leftMotor(LEFT_MOTOR, MOTOR_SAMPLE_TIME);
   Motor rightMotor(RIGHT_MOTOR, MOTOR_SAMPLE_TIME);
+  
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   rightMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
   rightMotor.setRange(MOTOR_MIN, MOTOR_MAX);
   leftMotor.setIMax(MOTOR_IMAX);
   rightMotor.setIMax(MOTOR_IMAX);
+  
+  leftMotor.enc._filter = encoderFilter;
+  rightMotor.enc._filter = encoderFilter;
+  
   leftMotor.begin();
   rightMotor.begin();
+  
   robot.leftMotor = leftMotor;
   robot.rightMotor = rightMotor;
   
@@ -82,6 +90,7 @@ void loop() {
     updateControl = true;
   }
 
+  // Receive input by serial
   if (NeoSerial.available() > 0) {
     delay(1);
     int strNum = 0;

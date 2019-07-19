@@ -8,8 +8,7 @@
 
 class RobotBase {
 private:
-    // Motors
-    myBNO080 imu;
+    
 
     // Update status - set flags when data available
     bool updateStatus[3] = {0};     // [leftMotor, rightMotor, imu] 
@@ -19,6 +18,8 @@ private:
     float w_cm, w_d;    // angular velocity of centre
 
 public:
+    // Motors
+    myBNO080 imu;
     Motor leftMotor;
     Motor rightMotor;
 
