@@ -1,4 +1,4 @@
-//#define TEST_FUNCTION
+#define TEST_FUNCTION
 
 #ifdef TEST_FUNCTION
 
@@ -15,10 +15,13 @@ int main() {
     
     Filter<float> filter(coeffs, size);
     
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
         filter.push((float)i);
         std::cout << "Value: " << filter.value() << std::endl;
     }
+    
+    Filter<float> filter2 = filter;
+    std::cout << "Filter2 Value: " << filter2.value() << std::endl;
     
     std::cin.get();
     return 0;

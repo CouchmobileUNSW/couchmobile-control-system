@@ -138,12 +138,20 @@ void loop() {
     NeoSerial.print("Desired: ");
     NeoSerial.print(vDesired);
     NeoSerial.print(" ");
-    NeoSerial.println(wDesired);
+    NeoSerial.print(wDesired);
+    NeoSerial.print(" ");
 
     NeoSerial.print("Inputs: ");
     NeoSerial.print(vInput);
     NeoSerial.print(" ");
-    NeoSerial.println(wInput);
+    NeoSerial.print(wInput);
+    NeoSerial.print(" ");
+
+    NeoSerial.print("V: ");
+    NeoSerial.print(robot.getVcm());
+    NeoSerial.print(" W: ");
+    NeoSerial.print(robot.getWcm());
+    NeoSerial.println();
     updateControl = false;
   }
 
