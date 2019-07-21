@@ -29,6 +29,8 @@ private:
     // Controller limits (saturation limits)
     float m_min;
     float m_max;
+    
+    int stationaryTicks = 0;
 
 public:
     Filter<float> _filter;
