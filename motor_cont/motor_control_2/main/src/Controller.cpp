@@ -87,6 +87,11 @@ float Controller::getControlEffort(float e) {
 #endif
 
 float Controller::getControlEffort(float w_d, float w_a) {
+#ifdef CONTROL_PID
+    if (abs(w_d) <= 0.001 && w_a == 0.0 && pid.getIntegral() <= 30.0) {
+        pid.setIntegral(0);
+    }
+#endif
     return getControlEffort( w_d - w_a );
 }
 

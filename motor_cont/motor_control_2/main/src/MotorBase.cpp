@@ -52,8 +52,8 @@ void MotorBase::controlSpeed() {
 bool MotorBase::sampleData() {
     if(enc.sampleData()) {
          w_a = enc.getRadianSpeed();     // get actual w_a (rad/s)
-         e = w_d - w_a;                  // get error in w (rad/s)
-         m = cont.getControlEffort(e);   // get control effort
+         //e = w_d - w_a;                  // get error in w (rad/s)
+         m = cont.getControlEffort(w_d, w_a);   // get control effort
         return true;
     }
     return false;
