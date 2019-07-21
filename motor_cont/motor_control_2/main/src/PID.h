@@ -30,6 +30,10 @@ public:
     
     // Error given by desired - actual value
     float pid(const float& _delta);
+    
+    void setIntegral(const float& newIntegral);
+    
+    float getIntegral();
 };
 
 #endif

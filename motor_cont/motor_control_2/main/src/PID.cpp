@@ -69,3 +69,11 @@ float PID::pid(const float& _delta) {
 
     return output;
 }
+
+void setIntegral(const float& newIntegral) {
+    integral = newIntegral;
+}
+    
+float getIntegral() {
+    return integral;
+}
