@@ -25,6 +25,7 @@ private:
     // Number of coefficients
     uint8_t N_e;            // error coefficients 
     uint8_t N_m;            // control effort coefficients
+#endif
 
     // Controller limits (saturation limits)
     float m_min;
@@ -35,7 +36,7 @@ private:
 public:
     Filter<float> _filter;
     
-#elif defined(CONTROL_PID)
+#ifdef CONTROL_PID
     PID pid;
 #endif
 

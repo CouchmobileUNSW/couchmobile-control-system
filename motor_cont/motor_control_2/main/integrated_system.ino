@@ -20,6 +20,7 @@ PID pidV, pidW;
 Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 
 // EMERGENCY STOP
+#define EMERGENCY_STOP_PIN A14
 
 void setup() {
   // --- MOTOR SETUP ---
@@ -133,8 +134,10 @@ void loop() {
     wDesired += pidW.pid(wInput-wDesired);
     
     // Set speed inputs
-    robot.setSpeed(vDesired, wDesired);
-
+    if (!EMERGENCY_STOP_PIN) {
+      robot.setSpeed(vDesired, wDesired);
+    }
+    
     NeoSerial.print("Desired: ");
     NeoSerial.print(vDesired);
     NeoSerial.print(" ");
@@ -156,7 +159,7 @@ void loop() {
   }
 
   if(digitalRead(EMERGENCY_STOP_PIN)) {
-    //robot.setSpeed(0,0);
+    robot.setSpeed(0,0);
   }
 }
 

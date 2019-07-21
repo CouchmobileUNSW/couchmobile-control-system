@@ -33,6 +33,7 @@ public:
     bool sampleData();
     void resetFlags();
     void drive();
+    void brake();
 
     // Getters
     float getVcm();             // m/s

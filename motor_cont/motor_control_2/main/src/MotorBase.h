@@ -50,6 +50,7 @@ public:
 #endif
     void setRadianSpeed(float w);   // set speed BEFORE control
     void controlSpeed();            // writes to PWM based on control effort
+    void brake();
 
     // Encoder
     bool sampleData();              // updates all variables

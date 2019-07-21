@@ -47,12 +47,16 @@ void MotorBase::controlSpeed() {
     pwm.writeValue(m);
 }
 
+void MotorBase::brake() {
+    pwm.writeValue(0);
+}
+
 // Samples data - updates all variables
 // Returns true if data was updated
 bool MotorBase::sampleData() {
     if(enc.sampleData()) {
          w_a = enc.getRadianSpeed();     // get actual w_a (rad/s)
-         //e = w_d - w_a;                  // get error in w (rad/s)
+         e = w_d - w_a;                  // get error in w (rad/s)
          m = cont.getControlEffort(w_d, w_a);   // get control effort
         return true;
     }

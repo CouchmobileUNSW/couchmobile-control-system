@@ -15,6 +15,11 @@ void RobotBase::begin() {
 
 // Sets desired v and w
 void RobotBase::setSpeed(float v, float w) {
+    if (v == 0.0 && w == 0.0) {
+        brake();
+        return;
+    }
+    
     // Save desired speeds
     v_d = v;
     w_d = w;
@@ -78,6 +83,11 @@ void RobotBase::drive() {
     // Control speed
     leftMotor.controlSpeed();
     rightMotor.controlSpeed();
+}
+
+void RobotBase::brake() {
+    leftMotor.brake();
+    rightMotor.brake();
 }
 
 // Get velocity

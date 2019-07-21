@@ -70,10 +70,10 @@ float PID::pid(const float& _delta) {
     return output;
 }
 
-void setIntegral(const float& newIntegral) {
+void PID::setIntegral(const float& newIntegral) {
     integral = newIntegral;
 }
     
-float getIntegral() {
+float PID::getIntegral() {
     return integral;
 }
