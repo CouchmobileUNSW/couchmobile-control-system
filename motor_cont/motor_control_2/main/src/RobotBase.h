@@ -24,7 +24,7 @@ public:
     Motor rightMotor;
 
     // Config
-    RobotBase(uint32_t T = SAMPLE_TIME, uint32_t resetTime = RESET_TIME);
+    RobotBase(uint32_t T, uint32_t resetTime);
     void begin();
 
     // Drive - call in this order

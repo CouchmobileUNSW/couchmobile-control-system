@@ -1,6 +1,6 @@
 #include "RobotBase.h"
 
-// Config
+
 RobotBase::RobotBase(uint32_t T, uint32_t resetTime)
     : leftMotor(LEFT_MOTOR, T), rightMotor(RIGHT_MOTOR, T),
         imu(T/1e3, resetTime/1e3) {
@@ -15,10 +15,12 @@ void RobotBase::begin() {
 
 // Sets desired v and w
 void RobotBase::setSpeed(float v, float w) {
+    /*
     if (v == 0.0 && w == 0.0) {
         brake();
         return;
     }
+     */
     
     // Save desired speeds
     v_d = v;
@@ -35,6 +37,12 @@ void RobotBase::setSpeed(float v, float w) {
         v_d -= reduceAmount;
         v_L -= reduceAmount; v_R -= reduceAmount;
     }
+    
+    //NeoSerial.print("Left motor command v: ");
+    //NeoSerial.print(v_L);
+    //NeoSerial.print("Right motor command v: ");
+    //NeoSerial.print(v_R);
+    //NeoSerial.println();
 
     // Set motor speeds
     leftMotor.setSpeed(v_L);
@@ -57,9 +65,23 @@ bool RobotBase::sampleData() {
     if(!updateStatus[2]) {
         updateStatus[2] |= imu.update();
     }
-
+    
+    /*
+    NeoSerial.println("Sampling.");
+    if (updateStatus[0]) {
+        NeoSerial.println("Left motor sampled.");
+    }
+    if (updateStatus[1]) {
+        NeoSerial.println("Right motor sampled.");
+    }
+    if (updateStatus[2]) {
+        NeoSerial.println("imu sampled.");
+    }
+    */
+    
     // Update robot data only if all data received
     if(updateStatus[0] && updateStatus[1] && updateStatus[2]) {
+        //NeoSerial.println("Updating.");
         v_cm = (rightMotor.getSpeed() + leftMotor.getSpeed())/2;
         w_cm = (rightMotor.getSpeed() - leftMotor.getSpeed())/WHEEL_DIST;
 

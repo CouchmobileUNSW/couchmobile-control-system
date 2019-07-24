@@ -56,6 +56,8 @@ void MotorBase::brake() {
 bool MotorBase::sampleData() {
     if(enc.sampleData()) {
          w_a = enc.getRadianSpeed();     // get actual w_a (rad/s)
+         //NeoSerial.print("Encoder w: ");
+         //NeoSerial.println(w_a);
          e = w_d - w_a;                  // get error in w (rad/s)
          m = cont.getControlEffort(w_d, w_a);   // get control effort
         return true;

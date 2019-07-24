@@ -2,6 +2,7 @@
 #define SPEED_ENCODER_H
 
 #include "Arduino.h"
+#include "Config.h"
 #include "Encoder.h"
 #include "math.h"
 #include "Filter.h"

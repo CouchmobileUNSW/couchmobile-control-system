@@ -27,7 +27,7 @@
  */
 
 // Pin 6 = default left motor; pin 7 = default right motor
- MotorPWM pwm(6);
+ MotorPWM pwm(7);
  float pwmVal = 0;
 
 void setup() {

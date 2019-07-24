@@ -76,9 +76,9 @@ void logTime() {
 
 // Units are PWM scale units. -1024 = Max backwards; 1024 = Max forwards
 // PID gain values
-#define MOTOR_KP    25
+#define MOTOR_KP    20
 
-#define MOTOR_KI    20
+#define MOTOR_KI    40
 #define MOTOR_KD    0.5
 
 // PID saturation values
@@ -98,4 +98,4 @@ const float ENCODER_FILTER_COEFFICIENTS[ENCODER_FILTER_SIZE] = {
 };
 
 // --- IMU PARAMETERS ---
-#define IMU_RESET_TIME 50e3 // microseconds; -1 = inf
+#define IMU_RESET_TIME -1 // microseconds; -1 = inf
