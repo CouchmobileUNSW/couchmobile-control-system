@@ -45,7 +45,7 @@ void logTime() {
 // >> PIDV Parameters; They set the response time to a desired linear velocity
 // PID gain values
 #define PID_V_KP    0.4
-#define PID_V_KI    0.02
+#define PID_V_KI    0.03
 #define PID_V_KD    0.000
 
 // PID output saturation values
@@ -57,8 +57,8 @@ void logTime() {
 
 // >> PIDW Parameters; They set the response time to a desired angular velocity
 // PID gain values
-#define PID_W_KP    5.0
-#define PID_W_KI    0.0
+#define PID_W_KP    0.3
+#define PID_W_KI    0.04
 #define PID_W_KD    0.0
 
 // PID output saturation values
