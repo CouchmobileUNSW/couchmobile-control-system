@@ -32,7 +32,7 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 
 // ----Robot----
 // Car parameters
-#define WHEEL_DIST 0.1825       // distance between wheel centres (m)
+#define WHEEL_DIST 0.75       // distance between wheel centres (m)
 
 // Sample times
 #define SAMPLE_TIME 8e3         // microseconds (motors + IMU)

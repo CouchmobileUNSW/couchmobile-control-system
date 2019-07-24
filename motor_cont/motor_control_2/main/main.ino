@@ -5,6 +5,7 @@
 //#define SPEED_ENCODER
 //#define PWM
 //#define CONTROLLER
+#define JOYSTICK
 
 // Single motor integration tests
 //#define CALIBRATE
@@ -26,7 +27,7 @@
 //#define NUC_SERIAL
 
 // Integrated code
-#define INTEGRATED_SYSTEM
+//#define INTEGRATED_SYSTEM
 
 // Debug statements
 //#define DEBUG
