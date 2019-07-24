@@ -7,7 +7,9 @@
 #include "src/PathReader.h"
 
 // Robot
-RobotBase robot(MOTOR_SAMPLE_TIME, IMU_RESET_TIME);
+RobotBase robot; //robot(MOTOR_SAMPLE_TIME, IMU_RESET_TIME);
+Motor leftMotor(LEFT_MOTOR, MOTOR_SAMPLE_TIME);
+Motor rightMotor(RIGHT_MOTOR, MOTOR_SAMPLE_TIME);
 
 // Odometry
 Pose pose;
@@ -24,8 +26,6 @@ Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 
 void setup() {
   // --- MOTOR SETUP ---
-  Motor leftMotor(LEFT_MOTOR, MOTOR_SAMPLE_TIME);
-  Motor rightMotor(RIGHT_MOTOR, MOTOR_SAMPLE_TIME);
   
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   rightMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
@@ -36,12 +36,13 @@ void setup() {
   
   leftMotor.enc._filter = encoderFilter;
   rightMotor.enc._filter = encoderFilter;
-  
+
   leftMotor.begin();
   rightMotor.begin();
   
   robot.leftMotor = leftMotor;
   robot.rightMotor = rightMotor;
+
   
   NeoSerial.begin(115200);
 
@@ -77,6 +78,7 @@ String inString[2] = {""};
 bool updateControl = true;
 
 void loop() {
+  
   static uint32_t sampleLast = millis();
   // Update pose and control speed
   
@@ -134,9 +136,9 @@ void loop() {
     wDesired += pidW.pid(wInput-wDesired);
     
     // Set speed inputs
-    if (!EMERGENCY_STOP_PIN) {
+    //if (!digitalRead(EMERGENCY_STOP_PIN)) {
       robot.setSpeed(vDesired, wDesired);
-    }
+    //}
     
     NeoSerial.print("Desired: ");
     NeoSerial.print(vDesired);
@@ -159,7 +161,7 @@ void loop() {
   }
 
   if(digitalRead(EMERGENCY_STOP_PIN)) {
-    robot.setSpeed(0,0);
+    //robot.setSpeed(0,0);
   }
 }
 
