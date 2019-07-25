@@ -7,7 +7,7 @@
 
 // Macros
 //#define DEBUG
-#define PLOTTER
+//#define PLOTTER
 #define SAMPLE_TIME 8e3   // microseconds
 
 #include "src/MotorBase.h"
@@ -15,7 +15,7 @@
 MotorBase leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 
 // Variables to take in Serial inputs
-float input = 1024;
+float input = 0;
 bool flag = false;
 
 void setup() {
@@ -71,7 +71,9 @@ void printData() {
     NeoSerial.print(t); NeoSerial.print(", ");
   #endif
   
-  NeoSerial.print(w); NeoSerial.println();
+  NeoSerial.print(w); NeoSerial.print(", ");
+  NeoSerial.print(input);
+  NeoSerial.println();
 }
 
 #endif

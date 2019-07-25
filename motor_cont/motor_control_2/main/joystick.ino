@@ -5,17 +5,6 @@
 
 #ifdef JOYSTICK
 
-#define PIN_JOYSTICK_X A5
-#define PIN_JOYSTICK_Y A4
-
-#define JOYSTICK_MIN 0
-#define JOYSTICK_MAX 1023
-
-#define JOYSTICK_DEADZONE_X 499
-#define JOYSTICK_DEADZONE_Y 522
-
-#define MAX_VAL 1.0
-#define MIN_VAL -1.0
 
 void setup() {
   // Start up serial
@@ -31,8 +20,8 @@ void loop() {
   int joystickX = analogRead(PIN_JOYSTICK_X);
   int joystickY = analogRead(PIN_JOYSTICK_Y);
 
-  float xval = mapJoystick(joystickX, 499);
-  float yval = mapJoystick(joystickY, 522);
+  float xval = mapJoystick(joystickX, 499, LINEAR_VELOCITY_MAX, LINEAR_VELOCITY_MIN);
+  float yval = mapJoystick(joystickY, 522, ANGULAR_VELOCITY_MAX, ANGULAR_VELOCITY_MIN);
 
   NeoSerial.print(joystickX);
   NeoSerial.print(" ");
@@ -45,12 +34,12 @@ void loop() {
   
 }
 
-float mapJoystick(int input, int deadzone) {
+float mapJoystick(int input, int deadzone, const float& maxVal, const float& minVal) {
   float output;
   if (input >= deadzone) {
-    output = (float) (input - deadzone) / (JOYSTICK_MAX - deadzone) * MAX_VAL;
+    output = (float) (input - deadzone) / (JOYSTICK_MAX - deadzone) * maxVal;
   } else {
-    output = (float) (deadzone - input) / (deadzone - JOYSTICK_MIN) * MIN_VAL;
+    output = (float) (deadzone - input) / (deadzone - JOYSTICK_MIN) * minVal;
   }
   return output;
 }

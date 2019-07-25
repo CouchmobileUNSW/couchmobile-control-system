@@ -126,6 +126,12 @@ void loop() {
     }
   }
 
+  int joystickX = analogRead(PIN_JOYSTICK_X);
+  int joystickY = analogRead(PIN_JOYSTICK_Y);
+
+  vInput = mapJoystick(joystickX, 499, LINEAR_VELOCITY_MAX, LINEAR_VELOCITY_MIN);
+  wInput = mapJoystick(joystickY, 522, ANGULAR_VELOCITY_MAX, ANGULAR_VELOCITY_MIN);
+
   // Update control signals
   if(updateControl) {
     // Run controller based on inputs
@@ -166,6 +172,16 @@ void loop() {
 void printData() {
   logTime();
   debugSerial.println();  
+}
+
+float mapJoystick(int input, int deadzone, const float& maxVal, const float& minVal) {
+  float output;
+  if (input >= deadzone) {
+    output = (float) (input - deadzone) / (JOYSTICK_MAX - deadzone) * maxVal;
+  } else {
+    output = (float) (deadzone - input) / (deadzone - JOYSTICK_MIN) * minVal;
+  }
+  return output;
 }
 
 #endif

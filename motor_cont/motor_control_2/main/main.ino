@@ -5,11 +5,11 @@
 //#define SPEED_ENCODER
 //#define PWM
 //#define CONTROLLER
-#define JOYSTICK
+//#define JOYSTICK
 
 // Single motor integration tests
 //#define CALIBRATE
-//#define MOTOR_IDENTIFY  // motors with no controller
+#define MOTOR_IDENTIFY  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
 //#define MOTOR_LINEAR_SPEED  // motors in m/s
 
@@ -43,6 +43,13 @@ void logTime() {
 }
 
 // --- PARAMETERS ---
+
+#define LINEAR_VELOCITY_MAX 0.5
+#define LINEAR_VELOCITY_MIN -0.5
+
+#define ANGULAR_VELOCITY_MAX 1.0
+#define ANGULAR_VELOCITY_MIN -1.0
+
 // >> PIDV Parameters; They set the response time to a desired linear velocity
 // PID gain values
 #define PID_V_KP    0.4
@@ -100,3 +107,13 @@ const float ENCODER_FILTER_COEFFICIENTS[ENCODER_FILTER_SIZE] = {
 
 // --- IMU PARAMETERS ---
 #define IMU_RESET_TIME -1 // microseconds; -1 = inf
+
+// --- JOYSTICK PARAMETERS ---
+#define PIN_JOYSTICK_X A5
+#define PIN_JOYSTICK_Y A4
+
+#define JOYSTICK_MIN 0
+#define JOYSTICK_MAX 1023
+
+#define JOYSTICK_DEADZONE_X 499
+#define JOYSTICK_DEADZONE_Y 522
