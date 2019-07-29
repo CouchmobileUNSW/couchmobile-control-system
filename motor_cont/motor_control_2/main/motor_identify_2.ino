@@ -28,7 +28,7 @@
  */
 
 // Pin 6 = default left motor; pin 7 = default right motor
-MotorBase leftMotor(RIGHT_MOTOR, 8e3);
+MotorBase leftMotor(LEFT_MOTOR, 8e3);
  float pwmVal = 0;
 
 void setup() {
@@ -40,17 +40,17 @@ void setup() {
 
 
   digitalWrite(A15, LOW);
-  delay(1000);
+  delay(3000);
   digitalWrite(A15,HIGH);
-  float maxVal = 700;
-  float minVal = -700;
-  const int delayTime = 9;
-  const int numIncrements = 141;
+  float maxVal = 500;
+  float minVal = -500;
+  const int delayTime = 10;
+  const int numIncrements = 100;
   for (int rep = 0; rep < 1; rep++) {
     for (int i = 0; i <= numIncrements; i++) {
-      pwmVal = (float) minVal + (maxVal - minVal)/numIncrements * i;
+      pwmVal = (float) minVal + (maxVal - minVal)/(numIncrements) * i;
       leftMotor.writeValue(pwmVal);
-      for (int j = 0; j < 10; j++) {
+      for (int j = 0; j < 20; j++) {
         if(leftMotor.sampleData()) {
           printData();
         }
@@ -62,7 +62,7 @@ void setup() {
       if(leftMotor.sampleData()) {
         printData();
       }
-      pwmVal = (float) maxVal + (minVal - maxVal)/numIncrements * i;
+      pwmVal = (float) maxVal + (minVal - maxVal)/(numIncrements) * i;
       leftMotor.writeValue(pwmVal);
       for (int j = 0; j < 10; j++) {
         if(leftMotor.sampleData()) {
@@ -89,22 +89,6 @@ void printData() {
   // Get speed data
   float w = leftMotor.getTickSpeed();
   float t = leftMotor.getCurrTime();
-  
-  #ifdef DEBUG
-    NeoSerial.print(leftMotor.getPWMOutput()); NeoSerial.print(", ");  
-    NeoSerial.print(leftMotor.getPrevTicks()); NeoSerial.print(", ");
-    NeoSerial.print(leftMotor.getCurrTicks()); NeoSerial.print(", ");
-    NeoSerial.print(leftMotor.getDeltaTicks()); NeoSerial.print(", ");
-  #endif
-  
-  // Print details
-  #ifdef PLOTTER
-    NeoSerial.print("0, ");
-    NeoSerial.print("40, ");
-  #endif
-  #ifndef PLOTTER
-    NeoSerial.print(t); NeoSerial.print(", ");
-  #endif
   
   NeoSerial.print(w); NeoSerial.print(", ");
   NeoSerial.print(pwmVal);
