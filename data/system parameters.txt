@@ -1,0 +1,19 @@
+Set point units:
+PWM units (-1024 = min, 0 = neutral, 1024 = max)
+
+Ticks per wheel revolution
+Theoretical: 800
+Practically observed: 790
+
+Sample time:
+8ms (for getting system data)
+24ms (for real system to be controlled)
+
+Wheel radius:
+6 inches
+
+Vehicle width:
+0.8m
+
+Vehicle Length:
+0.8m

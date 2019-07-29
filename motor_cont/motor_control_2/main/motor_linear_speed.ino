@@ -9,7 +9,7 @@
 #define PLOTTER
 
 // Create motor object
-Motor leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
+Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 
 Filter<float> filter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);

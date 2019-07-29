@@ -28,7 +28,7 @@
  */
 
 // Pin 6 = default left motor; pin 7 = default right motor
-MotorBase leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
+MotorBase leftMotor(RIGHT_MOTOR, 8e3);
  float pwmVal = 0;
 
 void setup() {

@@ -139,9 +139,9 @@ void loop() {
     wDesired += pidW.pid(wInput-wDesired);
     
     // Set speed inputs
-    //if (!digitalRead(EMERGENCY_STOP_PIN)) {
+    if (!digitalRead(EMERGENCY_STOP_PIN)) {
       robot.setSpeed(vDesired, wDesired);
-    //}
+    }
     
     NeoSerial.print("Desired: ");
     NeoSerial.print(vDesired);
@@ -162,9 +162,14 @@ void loop() {
     NeoSerial.println();
     updateControl = false;
   }
-
+  
   if(digitalRead(EMERGENCY_STOP_PIN)) {
-    //robot.setSpeed(0,0);
+    vInput = 0;
+    wInput = 0;
+    vDesired = 0;
+    wDesired = 0;
+    robot.setSpeed(0,0);
+    robot.brake();
   }
 }
 
