@@ -4,8 +4,6 @@
 #include "Arduino.h"
 #include <NeoHWSerial.h>
 
-#define EMERGENCY_STOP_PIN 13
-
 // ----Motor----
 // Motor configurations (LEFT_MOTOR, RIGHT_MOTOR)
 static const uint8_t pwmPin[2] = {6, 7};

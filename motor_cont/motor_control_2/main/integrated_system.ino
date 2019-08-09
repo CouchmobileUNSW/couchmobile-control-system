@@ -22,9 +22,6 @@ PID pidV, pidW;
 Filter<float> leftFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 Filter<float> rightFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 
-// EMERGENCY STOP
-#define EMERGENCY_STOP_PIN A14
-
 void setup() {
   // --- MOTOR SETUP ---
   

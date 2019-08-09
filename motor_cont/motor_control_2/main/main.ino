@@ -1,3 +1,30 @@
+// Pin connections list
+/*  MEGA pins
+ *   
+ * A4   - Joystick Y
+ * A5   - Joystick X
+ * A14  - E-stop input pin
+ * 
+ * D6   - LEFT_MOTOR_PWM      // Defined in config.h
+ * D7   - RIGHT_MOTOR_PWM     // Defined in config.h
+ * D2   - ENCODER_1_A         // Defined in Encoder.cpp
+ * D18  - ENCODER_1_B         // Defined in Encoder.cpp
+ * D3   - ENCODER_2_A         // Defined in Encoder.cpp
+ * D19  - ENCODER_2_B         // Defined in Encoder.cpp
+ * 
+ * D22  - STATUS_SERIAL
+ * D23  - STATUS_IMU
+ * D24  - STATUS_ENCODER
+ * D25  - STATUS_M1
+ * D26  - STATUS_M2
+ * 
+ */
+
+// EMERGENCY STOP
+#define EMERGENCY_STOP_PIN A14
+
+#define PIN_JOYSTICK_X A5
+#define PIN_JOYSTICK_Y A4
 
 // Unit tests
 //#define IMU
@@ -110,8 +137,6 @@ const float ENCODER_FILTER_COEFFICIENTS[ENCODER_FILTER_SIZE] = {
 #define IMU_RESET_TIME -1 // microseconds; -1 = inf
 
 // --- JOYSTICK PARAMETERS ---
-#define PIN_JOYSTICK_X A5
-#define PIN_JOYSTICK_Y A4
 
 #define JOYSTICK_MIN 0
 #define JOYSTICK_MAX 1023
