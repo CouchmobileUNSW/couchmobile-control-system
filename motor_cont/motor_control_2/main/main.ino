@@ -20,6 +20,13 @@
  * 
  */
 
+/*  How to use:
+ * 
+ *  Comment out the #defines that are not used; and only uncoment the #define for the module you want to use
+ *  
+ *  Integrated system is the entire system. The rest are debug functions and testing functions.
+ * 
+ */
 // EMERGENCY STOP
 #define EMERGENCY_STOP_PIN A14
 
@@ -37,7 +44,7 @@
 // Single motor integration tests
 //#define CALIBRATE
 //#define MOTOR_IDENTIFY  // motors with no controller
-#define MOTOR_IDENTIFY_2  // motors with no controller
+//#define MOTOR_IDENTIFY_2  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
 //#define MOTOR_LINEAR_SPEED  // motors in m/s
 
@@ -55,7 +62,7 @@
 //#define NUC_SERIAL
 
 // Integrated code
-//#define INTEGRATED_SYSTEM
+#define INTEGRATED_SYSTEM
 
 // Debug statements
 //#define DEBUG
