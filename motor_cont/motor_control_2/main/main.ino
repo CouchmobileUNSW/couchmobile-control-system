@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Pin connections list as defined on PCB
 /*  MEGA pins
  *   
@@ -18,6 +19,14 @@
  * D24  - STATUS_ENCODER
  * D25  - STATUS_M1
  * D26  - STATUS_M2
+ * 
+ */
+
+/*  How to use:
+ * 
+ *  Comment out the #defines that are not used; and only uncoment the #define for the module you want to use
+ *  
+ *  Integrated system is the entire system. The rest are debug functions and testing functions.
  * 
  */
 

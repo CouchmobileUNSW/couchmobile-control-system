@@ -126,6 +126,13 @@ void loop() {
   int joystickX = analogRead(PIN_JOYSTICK_X);
   int joystickY = analogRead(PIN_JOYSTICK_Y);
 
+  // vInput = nucVel
+  // wInput = nucSteer
+  // if (analogRead(joystickX outside dead zone) {
+  //  vInput = mapJoystick(joystickX, 499, LINEAR_VELOCITY_MAX, LINEAR_VELOCITY_MIN)
+  // }
+  // etc. same for wInput
+
   vInput = mapJoystick(joystickX, 499, LINEAR_VELOCITY_MAX, LINEAR_VELOCITY_MIN);
   wInput = mapJoystick(joystickY, 522, ANGULAR_VELOCITY_MAX, ANGULAR_VELOCITY_MIN);
 
@@ -168,6 +175,13 @@ void loop() {
     robot.setSpeed(0,0);
     robot.brake();
   }
+
+  // Obtaining actual data from the robot
+  /*
+    float actualVel =  getVcm();             // m/s
+    float actualW = getWcm();             // rad/s
+    float actualHeading = getYaw();             // rad
+   */
 }
 
 // Prints data
