@@ -1,9 +1,10 @@
-// Pin connections list
+// Pin connections list as defined on PCB
 /*  MEGA pins
  *   
  * A4   - Joystick Y
  * A5   - Joystick X
  * A14  - E-stop input pin
+ * A15  - E-stop handshake
  * 
  * D6   - LEFT_MOTOR_PWM      // Defined in config.h
  * D7   - RIGHT_MOTOR_PWM     // Defined in config.h
@@ -20,11 +21,19 @@
  * 
  */
 
+// Pin connections as defined in Arduino software
 // EMERGENCY STOP
 #define EMERGENCY_STOP_PIN A14
+#define EMERGENCY_HANDSHAKE A15
 
 #define PIN_JOYSTICK_X A5
 #define PIN_JOYSTICK_Y A4
+
+#define PIN_STATUS_SERIAL 22
+#define PIN_STATUS_IMU 23
+#define PIN_STATUS_ENCODER 24
+#define PIN_STATUS_MOTOR1 25
+#define PIN_STATUS_MOTOR2 26
 
 // Unit tests
 //#define IMU
@@ -33,11 +42,12 @@
 //#define PWM
 //#define CONTROLLER
 //#define JOYSTICK
+#define PCB_TEST
 
 // Single motor integration tests
 //#define CALIBRATE
 //#define MOTOR_IDENTIFY  // motors with no controller
-#define MOTOR_IDENTIFY_2  // motors with no controller
+//#define MOTOR_IDENTIFY_2  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
 //#define MOTOR_LINEAR_SPEED  // motors in m/s
 
