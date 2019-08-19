@@ -12,8 +12,12 @@
                   //either because it is not receiving or the button is pressed 
 #define BLED_PIN A7 // BLUE LED indicates if the stop signal is active
 #define EM_S_switch 5 // pin allocated to acting as an on off switch on the Motor Controller acting as a software emergy off
-#define EM_T_switch 7 // pin  allocated to the transistor which can drive the motor signal to ground 
+#define EM_H_switch 7 // pin  allocated to the transistor which can drive the motor signal to ground 
 #define ESTOP_HANDSHAKE_PIN 6 // pin to see if handshake signal has been sent from mega
+
+// ===== Settings =====
+#define HARDWARE_STOP // If set to true: will turn off motor control by overriding the control signal if a handshake is not received
+                      // If set to false: will always pass through control signal.
 
 int ReceivedMessage[1] = {000}; // Used to store value received by the NRF24L01
 int switchToggle = 1;
@@ -23,6 +27,8 @@ RF24 radio(10,9); // NRF24L01 used SPI pins + Pin 10, 9 (CE, CSN)
 
 const uint64_t pipe = 0xE6E6E6E6E6E6; // Needs to be the same for communicating between 2 NRF24L01 
 
+void switchHardEstop(bool toggleOn);
+void switchSoftEstop(bool toggleOn);
 
 void setup(void){
     Serial.begin(9600);
@@ -34,9 +40,11 @@ void setup(void){
     pinMode(GLED_PIN, OUTPUT); // Green LED indicates that a signal is being recieved from the RF transmitter
     pinMode(RLED_PIN, OUTPUT); // Red LED indicates that a signal is not being recieved from the RF transmitter
     pinMode(EM_S_switch, OUTPUT); // motor controller output
-    pinMode(EM_T_switch, OUTPUT); // Emergency transistor switch
+    pinMode(EM_H_switch, OUTPUT); // Emergency transistor switch
 
-    digitalWrite(EM_S_switch, LOW);
+    // Begin with E-stop on
+    switchSoftEstop(true);
+    switchHardEstop(true);
 }
 
 void loop(void){
@@ -50,19 +58,40 @@ void loop(void){
             digitalWrite(RLED_PIN, HIGH); // set the R LED on
 
             if (switchToggle == 0 && check == 1) {
+                // Turn on the motors
                 digitalWrite(BLED_PIN, LOW);
                 switchToggle = 1;
                 check = 0;
-                digitalWrite(EM_S_switch, LOW); // indicate to the motor controller that the emergy button is pressed
-                delay(100); // wait one millisecond allowing for the software off to occur    
-                digitalWrite(EM_T_switch, LOW); // shift transistor to ground acting as a hardware stop
+                switchSoftEstop(false);
+                delay(100);
+                #ifdef HARDWARE_STOP
+                    // Check if handshake signal received
+                    if (digitalRead(ESTOP_HANDSHAKE_PIN) == LOW) {
+                        // All is good. Turn on motors
+                        switchHardEstop(false);
+                    } else {
+                        // Turn off motor control manually
+                        switchHardEstop(true);
+                    }
+                #endif
             } else if (switchToggle == 1 && check == 1) {
+                // Turn off the motors
                 digitalWrite(BLED_PIN, HIGH);
                 switchToggle = 0;
                 check = 0;
-                digitalWrite(EM_S_switch, HIGH); // indicate to the motor controller that the emergy button is pressed
+                switchSoftEstop(true);
                 delay(100); // wait one millisecond allowing for the software off to occur    
-                digitalWrite(EM_T_switch, HIGH); // shift transistor to ground acting as a hardware stop
+                #ifdef HARDWARE_STOP
+                    // Wait some time for handshake signal to activate
+                    delay(100);
+                    // Check if handshake signal is received
+                    if (digitalRead(ESTOP_HANDSHAKE_PIN) == HIGH) {
+                        // All is good. Controller has turned off motors
+                    } else {
+                        // Turn off motor control manually
+                        switchHardEstop(true);
+                    }
+                #endif
             }
             
         } else if (ReceivedMessage[0] == 000) {
@@ -70,7 +99,7 @@ void loop(void){
             Serial.print("Received 000\n");
             digitalWrite(GLED_PIN, LOW); // set the G LED off
             digitalWrite(RLED_PIN, HIGH); // set the R LED on
-            digitalWrite(EM_T_switch, HIGH); // shift transistor to ground acting as a hardware stop
+            switchHardEstop(true);
         } else {
             Serial.print("Recieved else\n");
             digitalWrite(GLED_PIN, HIGH); // set the  G LED on
@@ -82,5 +111,23 @@ void loop(void){
       Serial.print("fail\n");
       digitalWrite(GLED_PIN, LOW); // turn off G LED to indicate not receiving
       //delay(500);
+    }
+}
+
+void switchHardEstop(bool toggleOn) {
+    // Active LOW E-stop. The motor driver signal is the output of EM_H_switch && PwmSignal
+    if (toggleOn) {
+        digitalWrite(EM_H_switch, LOW);
+    } else {
+        digitalWrite(EM_H_switch, HIGH);
+    }
+}
+
+void switchSoftEstop(bool toggleOn) {
+    // Active LOW E-stop. The motor driver signal is the output of EM_H_switch && PwmSignal
+    if (toggleOn) {
+        digitalWrite(EM_S_switch, LOW);
+    } else {
+        digitalWrite(EM_S_switch, HIGH);
     }
 }
