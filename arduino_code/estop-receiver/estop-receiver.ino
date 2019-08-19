@@ -114,6 +114,13 @@ void loop(void){
     }
 }
 
+/*
+ * Function written by: William Chen
+ * Date: 19/08/2019
+ * Description: Abstracted function to handle switching of hardware E-stop.
+ *              Hardware e-stop is activated when the control board does not respond to the software e-stop.
+ *              Control board response is checked through the handshake pin.
+ */
 void switchHardEstop(bool toggleOn) {
     // Active LOW E-stop. The motor driver signal is the output of EM_H_switch && PwmSignal
     if (toggleOn) {
@@ -123,6 +130,12 @@ void switchHardEstop(bool toggleOn) {
     }
 }
 
+/*
+ * Function written by: William Chen
+ * Date: 19/08/2019
+ * Description: Abstracted function to handle switching of software E-stop
+ *              After this function is called, wait a few milliseconds (50ms good) and check for handshake.
+ */
 void switchSoftEstop(bool toggleOn) {
     // Active LOW E-stop. The motor driver signal is the output of EM_H_switch && PwmSignal
     if (toggleOn) {
