@@ -79,8 +79,7 @@ void loop(void){
                 digitalWrite(BLED_PIN, HIGH);
                 switchToggle = 0;
                 check = 0;
-                switchSoftEstop(true);
-                delay(100); // wait one millisecond allowing for the software off to occur    
+                switchSoftEstop(true);   
                 #ifdef HARDWARE_STOP
                     // Wait some time for handshake signal to activate
                     delay(100);
