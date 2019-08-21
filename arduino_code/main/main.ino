@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Pin connections list as defined on PCB
 /*  MEGA pins
  *   
@@ -20,6 +19,8 @@
  * D25  - STATUS_M1
  * D26  - STATUS_M2
  * 
+ * D20  - i2c SDA
+ * D21  - i2c SCL
  */
 
 /*  How to use:
@@ -41,8 +42,11 @@
 #define PIN_STATUS_SERIAL 22
 #define PIN_STATUS_IMU 23
 #define PIN_STATUS_ENCODER 24
-#define PIN_STATUS_MOTOR1 25
+#define PIN_STATUS_MOTOR1 25 
 #define PIN_STATUS_MOTOR2 26
+
+#define PIN_I2C_SDA 20
+#define PIN_I2C_SCL 21
 
 // Unit tests
 //#define IMU
