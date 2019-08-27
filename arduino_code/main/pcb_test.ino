@@ -11,6 +11,10 @@ void ledTest(bool printSerial, int ledDelay);
 void i2cLogicConverterTest(bool printSerial, int delayMs);
 void estopTest(bool printSerial, int delayMs);
 void estopHSTest(bool printSerial, int delayMs);
+void interruptTest(bool printSerial, int delayMs);
+void isr();
+
+int isrCount = 0;
 
 void setup() {
   NeoSerial.begin(115200);
@@ -23,7 +27,7 @@ void setup() {
 
 void loop() {
   //i2cLogicConverterTest(true, 1000);
-  estopHSTest(true, 10000);
+  interruptTest(true, 10000);
 }
 
 void ledTest(bool printSerial, int ledDelay) {
@@ -141,5 +145,34 @@ void estopHSTest(bool printSerial, int delayMs) {
   }
 }
 
+void interruptTest(bool printSerial, int delayMs) {
+  if (printSerial) {
+    NeoSerial.println("Starting interrupt Test.");
+  }
+
+  isrCount = 0;
+  attachInterrupt(digitalPinToInterrupt(19), isr, CHANGE);
+
+  int timeElapsed = 0;
+  const int timeInterval = 5;
+  int count = 0;
+  while (timeElapsed < delayMs) {
+    count++;
+    if (count % 10 == 0) {
+      NeoSerial.print("Count: ");
+      NeoSerial.println(isrCount);
+    }
+    delay(timeInterval);
+    timeElapsed += timeInterval;
+  }
+
+  if (printSerial) {
+    NeoSerial.println("Finished interrupt test.");
+  }
+}
+
+void isr() {
+  isrCount++;
+}
 
 #endif // PCB_TEST

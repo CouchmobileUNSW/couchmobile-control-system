@@ -55,14 +55,14 @@
 //#define PWM
 //#define CONTROLLER
 //#define JOYSTICK
-#define PCB_TEST
+//#define PCB_TEST
 
 // Single motor integration tests
 //#define CALIBRATE
 //#define MOTOR_IDENTIFY  // motors with no controller
 //#define MOTOR_IDENTIFY_2  // motors with no controller
 //#define MOTOR_INTEGRATED  // motors with controller
-//#define MOTOR_LINEAR_SPEED  // motors in m/s
+#define MOTOR_LINEAR_SPEED  // motors in m/s
 
 // Combined motor integration tests
 //#define ROBOT_DRIVER  // drives robot using v and w
