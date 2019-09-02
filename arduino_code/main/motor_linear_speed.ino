@@ -7,9 +7,11 @@
 // Macros
 #define SAMPLE_TIME 24e3
 #define PLOTTER
+#define ACTIVE_MOTOR leftMotor // leftMotor or rightMotor
 
 // Create motor object
-Motor leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
+Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
+//Motor rightMotor(RIGHT_MOTOR, SAMPLE_TIME);
 
 Filter<float> filter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
@@ -21,16 +23,22 @@ void setup() {
   pinMode(6, INPUT);
   pinMode(7, INPUT);
   leftMotor.enc._filter = encoderFilter;
+  //rightMotor.enc._filter = encoderFilter;
 
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
   leftMotor.setRange(MOTOR_MIN, MOTOR_MAX);
   leftMotor.setIMax(MOTOR_IMAX);
-  // Config motors
+
+  //rightMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);
+  //rightMotor.setRange(MOTOR_MIN, MOTOR_MAX);
+  //rightMotor.setIMax(MOTOR_IMAX);
+  
   leftMotor.begin();
+  //rightMotor.begin();
 
   // Set PWM to middle of input range
   leftMotor.setSpeed(0);
-
+  //rightMotor.setSpeed(0);
 }
 
 // Variables to take in Serial inputs
@@ -38,8 +46,20 @@ float v_d = 0;          // desired speed (m/s)
 
 void loop() {
   // Update every T time
+  bool printNow = false;
   if(leftMotor.sampleData()) {
     leftMotor.controlSpeed();
+    printNow = true;
+  }
+
+  /*
+  if(rightMotor.sampleData()) {
+    rightMotor.controlSpeed();
+    printNow = true;
+  }
+  */
+  
+  if (printNow) {
     printData();
   }
   
@@ -47,7 +67,7 @@ void loop() {
   if (NeoSerial.available() > 0) {
     while(NeoSerial.available() > 0) {
       v_d = NeoSerial.parseFloat();
-      leftMotor.setSpeed(v_d);
+      ACTIVE_MOTOR.setSpeed(v_d);
     }
   }
 }
@@ -55,10 +75,10 @@ void loop() {
 // Prints data
 void printData() {
   // Get data
-  float t = leftMotor.getCurrTime();        // microseconds
-  float v_a = leftMotor.getSpeed();         // m/s
-  float v_d = leftMotor.getDesiredSpeed();  // m/s
-  float e = leftMotor.getError();           // m/s
+  float t = ACTIVE_MOTOR.getCurrTime();        // microseconds
+  float v_a = ACTIVE_MOTOR.getSpeed();         // m/s
+  float v_d = ACTIVE_MOTOR.getDesiredSpeed();  // m/s
+  float e = ACTIVE_MOTOR.getError();           // m/s
 
   filter.push(v_a);
   float v_filtered = filter.value();
