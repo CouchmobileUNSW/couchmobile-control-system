@@ -39,6 +39,7 @@ void setup() {
   // Set PWM to middle of input range
   leftMotor.setSpeed(0);
   //rightMotor.setSpeed(0);
+
 }
 
 // Variables to take in Serial inputs

@@ -7,8 +7,6 @@ bool MotorPWM::ATMEGA_timers[5] = {false};
 // Constructor
 MotorPWM::MotorPWM(uint8_t _pin)
     : pin(_pin) {
-    NeoSerial.print("PIN: ");
-    NeoSerial.println(_pin);
 }
 
 // Set high time limits
