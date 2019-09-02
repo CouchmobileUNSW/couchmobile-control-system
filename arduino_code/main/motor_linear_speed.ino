@@ -9,7 +9,7 @@
 #define PLOTTER
 
 // Create motor object
-Motor leftMotor(LEFT_MOTOR, SAMPLE_TIME);
+Motor leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
 
 Filter<float> filter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 Filter<float> encoderFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
@@ -18,6 +18,8 @@ void setup() {
   // Start up serial
   NeoSerial.begin(115200);
 
+  pinMode(6, INPUT);
+  pinMode(7, INPUT);
   leftMotor.enc._filter = encoderFilter;
 
   leftMotor.setGains(MOTOR_KP, MOTOR_KI, MOTOR_KD);

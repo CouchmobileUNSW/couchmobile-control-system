@@ -50,8 +50,8 @@ int16_t Encoder::sampleTicks() {
 // Encoder interrupt variables
 // encStates: 0 = No steps complete, -1 = CW step, 1 = CCW step
 Encoder* Encoder::instances[2] = {NULL, NULL};
-const uint8_t Encoder::quadA[2] = {2, 3};
-const uint8_t Encoder::quadB[2] = {18, 19};
+const uint8_t Encoder::quadA[2] = {18, 3};
+const uint8_t Encoder::quadB[2] = {2, 19};
 const int8_t Encoder::encStates[16] = {0,-1,1,0,1,0,0,-1,-1,0,0,1,0,1,-1,0};
 
 // Left encoder tick interrupt

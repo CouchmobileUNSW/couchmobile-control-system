@@ -29,6 +29,7 @@ b) ATmega640/1280/1281/2560/2561
 
 #include "avr/pgmspace.h"
 #include "math.h"
+#include "Config.h"
 
 #if defined(__AVR_ATmega640__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__)
 	#include "utility/ATimerDefs.h"

@@ -12,7 +12,7 @@
 
 #include "src/MotorBase.h"
 
-MotorBase leftMotor(RIGHT_MOTOR, SAMPLE_TIME);
+MotorBase leftMotor(LEFT_MOTOR, SAMPLE_TIME);
 
 // Variables to take in Serial inputs
 float input = 0;

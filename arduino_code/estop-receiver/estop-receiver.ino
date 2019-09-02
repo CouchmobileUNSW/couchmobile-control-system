@@ -16,7 +16,7 @@
 #define ESTOP_HANDSHAKE_PIN 6 // pin to see if handshake signal has been sent from mega
 
 // ===== Settings =====
-#define HARDWARE_STOP // If set to true: will turn off motor control by overriding the control signal if a handshake is not received
+//#define HARDWARE_STOP // If set to true: will turn off motor control by overriding the control signal if a handshake is not received
                       // If set to false: will always pass through control signal.
 
 int ReceivedMessage[1] = {000}; // Used to store value received by the NRF24L01
@@ -45,6 +45,10 @@ void setup(void){
     // Begin with E-stop on
     switchSoftEstop(true);
     switchHardEstop(true);
+
+    #ifndef HARDWARE_STOP
+    switchHardEstop(false);
+    #endif
 }
 
 void loop(void){
@@ -86,6 +90,8 @@ void loop(void){
                     // Check if handshake signal is received
                     if (digitalRead(ESTOP_HANDSHAKE_PIN) == HIGH) {
                         // All is good. Controller has turned off motors
+                        delay(100);
+                        switchHardEstop(true);
                     } else {
                         // Turn off motor control manually
                         switchHardEstop(true);
