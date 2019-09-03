@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 #include "Arduino.h"
-#include <NeoHWSerial.h>
+//#include <NeoHWSerial.h>
 
 // ----Motor----
 // Motor configurations (LEFT_MOTOR, RIGHT_MOTOR)
@@ -40,8 +40,11 @@ static const float motor_m_gains[] = {1.688682860224775, -0.688682860224775};
 #define MAX_PATH_SIZE 40        // max points stored
 
 // ----Serial ports----
-#define debugSerial NeoSerial3
-#define nucSerial NeoSerial
+//#define debugSerial NeoSerial3
+//#define nucSerial NeoSerial
+#define NeoSerial Serial
+#define debugSerial Serial
+#define nucSerial Serial
 #define BAUD_RATE 230400
 
 // ----Path tracking----

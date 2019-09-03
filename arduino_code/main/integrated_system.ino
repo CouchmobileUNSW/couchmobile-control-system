@@ -165,8 +165,6 @@ void loop() {
     NeoSerial.print(robot.getVcm());
     NeoSerial.print(" W: ");
     NeoSerial.print(robot.getWcm());
-    NeoSerial.print(" Heading: ");
-    NeoSerial.print(robot.getYaw());
     NeoSerial.println();
     updateControl = false;
   }

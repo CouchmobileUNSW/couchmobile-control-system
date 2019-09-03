@@ -85,12 +85,12 @@
 
 // ----Benchmark function----
 // Log time between next occurence
-#include <NeoHWSerial.h>
+//#include <NeoHWSerial.h>
 void logTime() {
   static uint32_t prevTime, currTime;
   prevTime = currTime;
   currTime = micros();
-  NeoSerial.println(currTime-prevTime);
+  //NeoSerial.println(currTime-prevTime);
 }
 
 // --- PARAMETERS ---
