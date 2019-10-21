@@ -165,6 +165,11 @@ void loop() {
     NeoSerial.print(robot.getVcm());
     NeoSerial.print(" W: ");
     NeoSerial.print(robot.getWcm());
+    
+    NeoSerial.print(" X: ");
+    NeoSerial.print(pose.x);
+    NeoSerial.print(" Y: ");
+    NeoSerial.print(pose.y);
     NeoSerial.println();
     updateControl = false;
   }
@@ -184,11 +189,14 @@ void loop() {
   }
 
   // Obtaining actual data from the robot
-  /*
-    float actualVel =  getVcm();             // m/s
-    float actualW = getWcm();             // rad/s
-    float actualHeading = getYaw();             // rad
-   */
+  
+    float actualVel =  robot.getVcm();             // m/s
+    float actualW = robot.getWcm();             // rad/s
+    float actualHeading = robot.getYaw();             // rad
+    
+    pose = ode.integrate(robot.getVcm(), robot.getYaw(), robot.getDeltaTime());
+    
+
 }
 
 // Prints data
