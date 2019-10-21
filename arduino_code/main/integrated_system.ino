@@ -161,11 +161,11 @@ void loop() {
   }
 
   // Obtaining actual data from the robot
-  /*
-    float actualVel =  getVcm();             // m/s
-    float actualW = getWcm();             // rad/s
-    float actualHeading = getYaw();             // rad
-   */
+    float actualVel =  robot.getVcm();             // m/s
+    float actualW = robot.getWcm();             // rad/s
+    float actualHeading = robot.getYaw();             // rad
+    
+    pose = ode.integrate(robot.getVcm(), robot.getYaw(), robot.getDeltaTime());
 }
 
 // Prints data
