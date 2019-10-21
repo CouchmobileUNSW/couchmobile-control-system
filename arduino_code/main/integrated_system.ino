@@ -1,5 +1,11 @@
 #ifdef INTEGRATED_SYSTEM
 
+// ROS Libraries
+#include <ros.h>
+#include <ros/time.h>
+#include <tf/tf.h>
+#include <tf/transform_broadcaster.h>
+
 // Libraries
 #include "src/RobotBase.h"
 #include "src/Stanley.h"
@@ -21,6 +27,13 @@ PID pidV, pidW;
 
 Filter<float> leftFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
 Filter<float> rightFilter(ENCODER_FILTER_COEFFICIENTS, ENCODER_FILTER_SIZE);
+
+// ROS stuff
+ros::NodeHandle nh;
+geometry_msgs::TransformStamped t;
+tf::TransformBroadcaster broadcaster;
+char base_link[] = "/base_link";
+char odom[] = "/odom";
 
 void setup() {
   // --- MOTOR SETUP ---
@@ -60,6 +73,10 @@ void setup() {
   robot.setSpeed(0, 0);
 
   pinMode(EMERGENCY_HANDSHAKE, OUTPUT);
+
+  // ROS stuff
+  nh.initNode();
+  broadcaster.init(nh);
 }
 
 // State machine for motor controllers
@@ -86,45 +103,22 @@ void loop() {
       logTime();
     #endif
 
+    // ROS publish data
+    t.header.frame_id = odom;
+    t.child_frame_id = base_link;
+    
+    t.transform.translation.x = x;
+    t.transform.translation.y = y;
+    
+    t.transform.rotation = tf::createQuaternionFromYaw(theta);
+    t.header.stamp = nh.now();
+    
+    broadcaster.sendTransform(t);
+    nh.spinOnce();
+
     updateControl = true;
   }
-
-  // Receive input by serial
-  if (NeoSerial.available() > 0) {
-    delay(1);
-    int strNum = 0;
-    while (NeoSerial.available() > 0) {
-      int inChar = NeoSerial.read();
-      if (isDigit(inChar) || inChar == '.' || inChar == '-') {
-        // convert the incoming byte to a char and add it to the string:
-        inString[strNum] += (char)inChar;
-      }
-      if (inChar == ',') {
-        strNum = 1;
-      }
-      // if you get a newline, print the string, then the string's value:
-      if (inChar == '\n') {
-        NeoSerial.print("Value:");
-        NeoSerial.print(inString[0].toFloat());
-        NeoSerial.print(",");
-        NeoSerial.print(inString[1].toFloat());
-        NeoSerial.print(" String: ");
-        NeoSerial.print(inString[0]);
-        NeoSerial.print(",");
-        NeoSerial.println(inString[1]);
-
-        // Set the recorded values
-        vInput = inString[0].toFloat();
-        wInput = inString[1].toFloat();
-        
-        // clear the string for new input:
-        inString[0] = "";
-        inString[1] = "";
-
-      }
-    }
-  }
-
+  
   int joystickX = analogRead(PIN_JOYSTICK_X);
   int joystickY = analogRead(PIN_JOYSTICK_Y);
 
@@ -149,23 +143,6 @@ void loop() {
       robot.setSpeed(vDesired, wDesired);
     }
     
-    NeoSerial.print("Desired: ");
-    NeoSerial.print(vDesired);
-    NeoSerial.print(" ");
-    NeoSerial.print(wDesired);
-    NeoSerial.print(" ");
-
-    NeoSerial.print("Inputs: ");
-    NeoSerial.print(vInput);
-    NeoSerial.print(" ");
-    NeoSerial.print(wInput);
-    NeoSerial.print(" ");
-
-    NeoSerial.print("V: ");
-    NeoSerial.print(robot.getVcm());
-    NeoSerial.print(" W: ");
-    NeoSerial.print(robot.getWcm());
-    NeoSerial.println();
     updateControl = false;
   }
 
